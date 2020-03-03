@@ -1,0 +1,47 @@
+
+body {
+  background-color: rgba(100, 102, 100, 0.867);
+  color: white;
+  height: 97vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-board {
+  background-color: #424233;
+  z-index: 0;
+}
+
+.board {
+  position: absolute;
+  top: 36px;
+  left: 180px;
+}
+
+#board-background {
+  position: relative;
+  margin: auto;
+  height: 956px;
+  width: 1200px;
+  background-image: url("../images/mac-screen.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#player, #board {
+  z-index: 3;
+  background: none;
+}
+
+#img-loader {
+  background-image: url("../images/chrome.png");
+}

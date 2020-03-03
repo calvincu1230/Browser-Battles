@@ -4,8 +4,8 @@ Browser Battles is a battle for internet browsing supremacy!  Choose your browse
 
 Choose your browser!
 
-![Start Page Wire](https://github.com/calvincu1230/Browser-Battles/blob/master/start_page.png "Start Page Wireframe")
+![Start Page Wire](https://github.com/calvincu1230/Browser-Battles/blob/master/src/images/common/start_page.png "Start Page Wireframe")
 
 Battle it out for Browser Supremacy!
 
-![Battle Page Wire](https://github.com/calvincu1230/Browser-Battles/blob/master/battle_frame.png "Battle Page Wireframe")
+![Battle Page Wire](https://github.com/calvincu1230/Browser-Battles/blob/master/src/images/common/battle_frame.png "Battle Page Wireframe")
