@@ -1,6 +1,6 @@
 import Player from "./player";
 
-export default class Opponent extends Player {
+export default class Computer extends Player {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
     // may be better to deconstruct obj to pass in traits from other browsers
     // const { health, attackPower, name } = NAME OF OBJ PASSED IN
@@ -11,7 +11,7 @@ export default class Opponent extends Player {
     this.attackPower = attackPower;
     this.name = name; // only if browsers are ALL made by inputing data into this 
     // this.img = new Image // added img in draw so likely wont need this
-    this.position = {
+    this.position = { // currently hidden off screen
       y: gameHeight - this.height - 40,
       x: 50
     }
@@ -23,7 +23,7 @@ export default class Opponent extends Player {
     img.src = "./dist/images/chrome.png"
     console.log(img);
     img.onload = () => {
-    ctx.drawImage(img, this.position.x, this.position.y, this.height, this.width);
+      ctx.drawImage(img, this.position.x, this.position.y, this.height, this.width);
     }
   }
 

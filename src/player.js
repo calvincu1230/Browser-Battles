@@ -7,7 +7,7 @@ export default class Player {
     this.attackPower = attackPower;
     this.name = name; // only if browsers are ALL made by inputing data into this 
     // this.img = new Image // added img in draw so likely wont need this
-    this.position = {
+    this.position = { // currently set off screen
       y: gameHeight - this.height - 40,
       x: -this.width
     }
