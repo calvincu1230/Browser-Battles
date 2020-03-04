@@ -19,7 +19,6 @@ body {
   background-image: url("../images/battle_background.png");
   background-size: cover;
   background-repeat: no-repeat;
-  z-index: 0;
 }
 
 .board {
@@ -37,11 +36,6 @@ body {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-}
-
-#player, #board {
-  z-index: 3;
-  background: none;
 }
 
 #img-loader {
