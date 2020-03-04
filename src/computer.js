@@ -23,7 +23,7 @@ export default class Computer {
 
   draw(ctx) { // will have to refactor to get dif image per browser
     let img = new Image();
-    img.src = "./dist/images/Chrome.png"; // maybe make all files the name? so can be interpolated
+    img.src = "./dist/images/Firefox.png"; // maybe make all files the name? so can be interpolated
     img.onload = () => {
       ctx.drawImage(img, this.position.x, this.position.y, this.height, this.width);
     }
