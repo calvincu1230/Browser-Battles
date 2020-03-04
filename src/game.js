@@ -12,6 +12,10 @@ class Game {
 
   }
 
+  changeTurn() {
+    // not sure how turn change will be handle yet
+  }
+
   winner(player, computer) {
     if (player.health <= 0) {
       console.log(`${computer.name} wins!`);
@@ -25,7 +29,7 @@ class Game {
   }
 
   gameOver() {
-    
+    // ends game and renders start menu
   }
 
 }

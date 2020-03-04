@@ -13,11 +13,13 @@ const boardCtx = boardCanvas.getContext("2d");
 const GAME_HEIGHT = 480;
 const GAME_WIDTH = 840;
 const player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
-// const opponent = new Opponent(100, 20, "Internet Explorer", GAME_HEIGHT, GAME_WIDTH);
+const computer = new Computer(100, 20, "Internet_Explorer", GAME_HEIGHT, GAME_WIDTH);
 
 new Input(); // used to test which keys were what codes
 player.draw(boardCtx); // just to draw chrome logo for now but it is offscreen
-  
+computer.draw(boardCtx)
+
+
 // function gameLoop(timestamp) {
 //   let dt = timestamp - lastTime;
 //   lastTime = timestamp;

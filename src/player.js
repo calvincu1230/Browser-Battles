@@ -9,14 +9,14 @@ export default class Player {
     // this.img = new Image // added img in draw so likely wont need this
     this.position = { // currently set off screen
       y: gameHeight - this.height - 40,
-      x: -this.width
+      x: 40
     }
   }
 
 
   draw(ctx) { // will have to refactor to get dif image per browser
     let img = new Image();
-    img.src = "./dist/images/chrome.png"
+    img.src = "./dist/images/Chrome.png"
     img.onload = () => {
       ctx.drawImage(img, this.position.x, this.position.y, this.height, this.width);
     }
