@@ -4,6 +4,7 @@ export default class Player {
     this.height = 150;
     this.width = 150;
     this.health = health;
+    this.maxHealth = health;
     this.attackPower = attackPower;
     this.name = name; // only if browsers are ALL made by inputing data into this 
     this.position = { // currently set off screen

@@ -7,7 +7,8 @@ export default class Computer {
 
     this.height = 150;
     this.width = 150;
-    this.health = health;
+    this.health = health / 2;
+    this.maxHealth = health;
     this.attackPower = attackPower;
     this.name = name; // only if browsers are ALL made by inputing data into this 
     // this.img = new Image // added img in draw so likely wont need this

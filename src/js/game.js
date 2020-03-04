@@ -1,8 +1,17 @@
+import HealthBar from "./health_bar";
+import Player from "./player";
+import Computer from "./computer";
+// import GameInput from "./game_input";
+
 export default class Game {
   constructor(player, computer) {
     this.player = player;
     this.computer = computer;
-    this.players = { // customize AP and Health later
+    this.gameState = true;
+    this.playHealth = new HealthBar(this.player);
+    this.compHealth = new HealthBar(this.computer);
+    this.currentPlayer = player;
+    this.players = { // customize AP Health and texts later
       chrome: {
         health: 100,
         attackPower: 20,
@@ -32,39 +41,54 @@ export default class Game {
         healText: ""
       }
     }
-    this.start = this.start.bind(this);
   }
 
-  start() {
-    // start with current render that is on screen
-  }
+  // start(ctx) {
+  //   ctx.clearRect(0, 0, 840, 480);
+  //   // start with current render that is on screen
+  //   this.player.draw(ctx);
+  //   this.computer.draw(ctx);
+  //   // debugger
+  //   this.playHealth.draw(ctx)
+  //   this.compHealth.draw(ctx)
 
-  update() {
+  //   // if (this.currentPlayer === this.player && )
+  // }
 
-  }
-
-  draw(ctx) {
-    // sets up initial rendering of board
+  pause() {
+    this.gameState = false;
   }
 
   changeTurn() {
     // not sure how turn change will be handle yet
+    if (this.currentPlayer === this.player) {
+      this.currentPlayer === this.computer;
+    } else {
+      this.currentPlayer === this.player;
+    }
   }
 
-  winner(player, computer) {
-    if (player.health <= 0) {
-      console.log(`${computer.name} wins!`);
+  winner() {
+    if (this.player.health <= 0) {
+      console.log(`${this.computer.name} wins!`);
       // this.gameOver();
     }
 
-    if (computer.health <= 0) {
-      console.log(`${player.name} wins!`);
+    if (this.computer.health <= 0) {
+      console.log(`${this.player.name} wins!`);
       // this.gameOver();
     }
   }
 
   gameOver() {
-    // ends game and renders start menu
+    if (this.player.health <= 0 || this.computer.health <= 0) {
+      
+    }
   }
 
 }
+
+// const canvas = document.getElementById("game-board"); // changed to one after talking to oliver
+// const ctx = canvas.getContext("2d");
+// const GAME_HEIGHT = 480;
+// const GAME_WIDTH = 840;
