@@ -16,7 +16,9 @@ body {
 }
 
 #game-board {
-  background-color: #424233;
+  background-image: url("../images/battle_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   z-index: 0;
 }
 
@@ -43,5 +45,5 @@ body {
 }
 
 #img-loader {
-  background-image: url("../images/chrome.png");
+  background-image: url("../images/Chrome.png");
 }
