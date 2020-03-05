@@ -8,7 +8,7 @@ export default class Player {
     this.attackPower = attackPower;
     this.name = name; // only if browsers are ALL made by inputing data into this 
     this.position = { // currently set off screen
-      y: gameHeight - this.height - 40,
+      y: gameHeight - this.height - 50,
       x: 40
     }
     this.attack = this.attack.bind(this);
@@ -26,12 +26,13 @@ export default class Player {
   }
 
   attack(opponent) { // opponent should be instance of opponent class
-    const dmg = Math.floor(Math.random * this.attackPower);
+    const dmg = Math.floor(Math.random() * this.attackPower);
     opponent.health -= dmg;
+    console.log(`${this.name} attacked ${opponent.name} for ${dmg} damage!`);
   }
 
   heal() { // just adds health back to 
-    const healing = Math.floor(Math.random * 20) + 10;
+    const healing = Math.floor(Math.random() * 20) + 10;
     this.health += healing;
   }
 

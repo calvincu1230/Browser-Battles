@@ -13,7 +13,7 @@ export default class Computer {
     this.name = name; // only if browsers are ALL made by inputing data into this 
     // this.img = new Image // added img in draw so likely wont need this
     this.position = { // currently hidden off screen
-      y: 40,
+      y: 20,
       x: gameWidth - this.width - 40
     }
 
@@ -31,16 +31,18 @@ export default class Computer {
   }
 
   attack(opponent) { // opponent should be instance of player class
-    const dmg = Math.floor(Math.random * this.attackPower);
+    const dmg = Math.floor(Math.random() * this.attackPower);
     opponent.health -= dmg;
+    console.log(`${this.name} attacked ${opponent.name} for ${dmg} damage!`);
   }
 
   heal() { // just adds health back to 
-    const healing = Math.floor(Math.random * 20) + 10;
+    const healing = Math.floor(Math.random() * 20) + 10;
     this.health += healing;
   }
 
   playTurn(opponent) { // if health is low and opponent has more than low hp, heal
+    debugger
     const move = (this.health < 20 && opponent.health > 20) ? () => this.heal() : (opponent) => this.attack(opponent);
     
     window.setTimeout(move(opponent), 1500);

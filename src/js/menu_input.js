@@ -3,11 +3,11 @@ import { gameLoop } from "../index";
 import Player from "./player";
 import Computer from "./computer";
 
-export const menuInput = (gameHeight, gameWidth, ctx) => {
+export const menuInput = () => {
   let clicked = false;
   document.addEventListener("keydown", (e) => {
     if (clicked === false) { // this is janky logic, maybe add removeEventListener later
-      clicked === true;
+      clicked = true;
       // const player = new Player(100, 20, "Chrome", gameHeight, gameWidth);
       // const computer = new Computer(100, 20, "Internet_Explorer", gameHeight, gameWidth);
       // refactor eventually to add player based on key in puts on later screen

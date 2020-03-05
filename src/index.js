@@ -1,10 +1,11 @@
 import "./styles/index.css";
 import Computer from "./js/computer";
 import Player from "./js/player";
-import gameInput from "./js/game_input";
+// import gameInput from "./js/game_input";
 import Game from "./js/game";
 import Menu from "./js/menu";
 import { menuInput } from "./js/menu_input";
+// import GameInput from "./js/game_input";
 
 const canvas = document.getElementById("game-board"); // changed to one after talking to oliver
 const ctx = canvas.getContext("2d");
@@ -22,6 +23,40 @@ const player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
 const computer = new Computer(100, 20, "Internet_Explorer", GAME_HEIGHT, GAME_WIDTH);
 // refactor eventually to add player based on key in puts on later screen
 const game = new Game(player, computer);
+const gameInput = document.addEventListener("keydown", (e) => {
+  switch (e.keyCode) {
+    // case 37: // 37 is left arrow key
+    //   break;
+    // case 38: // 38 is up arrow key
+    //   break;
+    // case 39: // 39 is right arrow key        
+    //   break;
+    // case 40: // 40 is down arrow key        
+    //   break;
+    // case 13: // 13 is enter key
+    //   break;
+    case 65: // 65 a mute key
+      // if muted then unmute, otherwise mute
+      debugger
+      game.player.attack(game.computer);
+      // console.log("I should be attacking")
+      game.changeTurn();
+      break;
+    case 83: // 83 is s key
+      // if muted then unmute, otherwise mute
+      break;
+    case 81: // 81 is q key
+      // if muted then unmute, otherwise mute
+      break;
+  }
+})
+
+if (game.currentPlayer === game.player) {
+  
+}
+// if (game) {
+//   new GameInput(game);
+// }
 
 export function gameLoop(timestamp) {
   let dt = timestamp - prevTime;
@@ -38,11 +73,14 @@ export function gameLoop(timestamp) {
   }
   // battleOptions();
   // new GameInput(game);
-  // if (game.gameState === false) {
 
-  // } else {
-    // requestAnimationFrame(gameLoop);
-  // }
+  game.gameOver();
+  
+  if (game.gameState === false) {
+    cancelAnimationFrame(gameLoop);
+  } else {
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 menuInput(GAME_HEIGHT, GAME_WIDTH, ctx); // used to test which keys were what codes

@@ -41,6 +41,7 @@ export default class Game {
         healText: ""
       }
     }
+    this.changeTurn = this.changeTurn.bind(this);
   }
 
   // start(ctx) {
@@ -62,7 +63,8 @@ export default class Game {
   changeTurn() {
     // not sure how turn change will be handle yet
     if (this.currentPlayer === this.player) {
-      this.currentPlayer === this.computer;
+      this.currentPlayer = this.computer;
+      console.log(this.currentPlayer);
     } else {
       this.currentPlayer === this.player;
     }
@@ -82,7 +84,7 @@ export default class Game {
 
   gameOver() {
     if (this.player.health <= 0 || this.computer.health <= 0) {
-      
+      this.gameState = false;
     }
   }
 
