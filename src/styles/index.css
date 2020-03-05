@@ -27,6 +27,22 @@ body {
   left: 180px;
 }
 
+.intro-menu {
+  background: rbga(0, 0, 0, 0.75);
+  height: 480px;
+  width: 840px;
+  font-size: 30px;
+  max-height: 480px;
+  max-width: 840px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-menu {
+  display: none;
+}
+
 #board-background {
   position: relative;
   margin: auto;

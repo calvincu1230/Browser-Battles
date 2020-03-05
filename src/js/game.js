@@ -1,6 +1,6 @@
 import HealthBar from "./health_bar";
-import Player from "./player";
-import Computer from "./computer";
+// import Player from "./player";
+// import Computer from "./computer";
 // import GameInput from "./game_input";
 
 export default class Game {
@@ -10,7 +10,7 @@ export default class Game {
     this.gameState = true;
     this.playHealth = new HealthBar(this.player);
     this.compHealth = new HealthBar(this.computer);
-    this.currentPlayer = player;
+    this.currentPlayer = this.player;
     this.players = { // customize AP Health and texts later
       chrome: {
         health: 100,
@@ -56,6 +56,12 @@ export default class Game {
   //   // if (this.currentPlayer === this.player && )
   // }
 
+  attackRequest(player, attack) {
+    if (this.currentPlayer === player) {
+
+    }
+  }
+
   pause() {
     this.gameState = false;
   }
@@ -64,28 +70,29 @@ export default class Game {
     // not sure how turn change will be handle yet
     if (this.currentPlayer === this.player) {
       this.currentPlayer = this.computer;
-      console.log(this.currentPlayer);
     } else {
-      this.currentPlayer === this.player;
+      this.currentPlayer = this.player;
     }
   }
 
   winner() {
     if (this.player.health <= 0) {
       console.log(`${this.computer.name} wins!`);
-      // this.gameOver();
+      // this.reset();
     }
 
     if (this.computer.health <= 0) {
       console.log(`${this.player.name} wins!`);
-      // this.gameOver();
+      // this.reset();
     }
   }
 
   gameOver() {
     if (this.player.health <= 0 || this.computer.health <= 0) {
       this.gameState = false;
+      return true;
     }
+    return false;
   }
 
 }

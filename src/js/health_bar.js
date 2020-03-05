@@ -11,8 +11,7 @@ export default class HealthBar {
   }
 
   draw(ctx) {
-    // draw box with player health and name
-    // place box X pixels from player position to player passed in
+    // draw box with player health
     ctx.fillStyle = "white";
     ctx.fillRect(
       this.position.x, 
@@ -29,6 +28,6 @@ export default class HealthBar {
       );
     ctx.font = "16px Arial";
     ctx.fillStyle = "black";
-    ctx.fillText(this.player.health, this.position.x + this.width / 2, this.position.y + this.height - 5);
+    ctx.fillText(this.player.health, this.position.x + this.width / 2.5, this.position.y + this.height - 5);
   }
 }
