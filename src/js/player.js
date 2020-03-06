@@ -8,6 +8,9 @@ export default class Player {
     this.maxHealth = health;
     this.attackPower = attackPower;
     this.name = name; // only if browsers are ALL made by inputing data into this 
+    this.fileName = this.name.split(" ").join("");
+    this.img = new Image();
+    this.img.src = `./dist/images/${this.fileName}.png`;
     this.position = { // currently set off screen
       y: this.gameHeight - this.height - 50,
       x: 40
@@ -23,16 +26,10 @@ export default class Player {
 
   // player.js
   draw(ctx) {
-    let img = new Image();
-    const fileName = this.name.split(" ").join("");
-    img.src = `./dist/images/${fileName}.png`;
     const position = this.position;
     const height = this.height;
     const width = this.width;
-    img.onload = () => {
-      debugger
-      ctx.drawImage(img, position.x, position.y, height, width);
-    }
+    ctx.drawImage(this.img, position.x, position.y, height, width);
   }
 
   attack(opponent) { // opponent should be instance of opponent class
@@ -45,8 +42,12 @@ export default class Player {
   }
 
   heal() { // just adds health back to 
-    const healing = Math.floor(Math.random() * 20) + 10;
+    const healing = Math.floor(Math.random() * 15) + 5;
     this.health += healing;
+    if (this.health >= 100) {
+      this.health = 100;
+    }
+    console.log(`${this.name} healed for ${healing}!`);
   }
 
 }

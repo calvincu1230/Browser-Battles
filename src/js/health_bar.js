@@ -23,7 +23,7 @@ export default class HealthBar {
     ctx.fillRect(
       this.position.x, 
       this.position.y, 
-      this.width * (this.player.health / this.player.maxHealth), 
+      this.width * (this.player.health / this.player.maxHealth), // calculates pixels based on current player health
       this.height
       );
     ctx.font = "16px Arial";

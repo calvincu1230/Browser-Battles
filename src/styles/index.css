@@ -27,8 +27,9 @@ body {
   left: 180px;
 }
 
-.intro-menu {
-  background: rbga(0, 0, 0, 0.75);
+.intro-menu, .game-over {
+  z-index: 10;
+  background: rgba(0, 0, 0, .75);
   height: 480px;
   width: 840px;
   font-size: 30px;
@@ -37,6 +38,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.game-over {
+  background-color: black;
+}
+
+.menu-text {
+  opacity: 100%;
 }
 
 .close-menu {

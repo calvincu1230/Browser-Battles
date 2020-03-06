@@ -21,11 +21,28 @@ const GAME_WIDTH = 840;
 let game;
 let player;
 let computer;
+
 const menu = document.getElementById("menu");
 const menuListen = e => {
   if (e.keyCode === 32) {
+    ctx.clearRect(0, 0, 840, 480);
     menu.classList.add("close-menu");
     window.removeEventListener("keypress", menuListen)
+    window.addEventListener("keydown", gameInput)
+    player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
+    computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
+    game = new Game(player, computer);
+    gameLoop();
+  }
+};
+
+const gameOver = document.getElementById("game-over");
+const overListen = e => {
+  if (e.keyCode === 32) {
+    ctx.clearRect(0, 0, 840, 480);
+    // statusText.draw();
+    gameOver.classList.add("close-menu");
+    window.removeEventListener("keypress", overListen)
     window.addEventListener("keydown", gameInput)
     player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
     computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
@@ -112,10 +129,10 @@ function gameLoop(timestamp) {
   } else {
     cancelAnimationFrame(gameLoop);
     window.removeEventListener("keydown", gameInput);
-    ctx.clearRect(0, 0, 840, 480);
+    // ctx.clearRect(0, 0, 840, 480);
     game = null;
-    menu.classList.remove("close-menu");
-    window.addEventListener("keypress", menuListen);
+    gameOver.classList.remove("close-menu");
+    window.addEventListener("keypress", overListen);
   }
 }
 
@@ -123,6 +140,3 @@ function gameLoop(timestamp) {
 // going to need this to only be called once maybe draw in initial game loop
 // player.draw(ctx); // just to draw chrome logo for now but it is offscreen
 // computer.draw(ctx)
-
-
-// I'm slowly building the logic to my game and checking that things render, when I put in requestAnimationFrame(gameLoop); my pictures stop showing up.  I don't have constant updates, being a turn based game but I want to start implementing the attacks into the canvas

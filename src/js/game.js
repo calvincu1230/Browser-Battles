@@ -11,6 +11,7 @@ export default class Game {
     this.playHealth = new HealthBar(this.player);
     this.compHealth = new HealthBar(this.computer);
     this.currentPlayer = this.player;
+    this. attacking = false; // only true during attack animation
     this.players = { // customize AP Health and texts later
       chrome: {
         health: 100,
@@ -43,18 +44,6 @@ export default class Game {
     }
     this.changeTurn = this.changeTurn.bind(this);
   }
-
-  // start(ctx) {
-  //   ctx.clearRect(0, 0, 840, 480);
-  //   // start with current render that is on screen
-  //   this.player.draw(ctx);
-  //   this.computer.draw(ctx);
-  //   // debugger
-  //   this.playHealth.draw(ctx)
-  //   this.compHealth.draw(ctx)
-
-  //   // if (this.currentPlayer === this.player && )
-  // }
 
   attackRequest(player, attack) {
     if (this.currentPlayer === player) {

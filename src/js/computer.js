@@ -10,9 +10,11 @@ export default class Computer {
     this.gameWidth = gameWidth;
     this.health = health;
     this.maxHealth = health;
-    this.img = null;
-    this.attackPower = attackPower;
     this.name = name; // only if browsers are ALL made by inputing data into this 
+    this.fileName = this.name.split(" ").join("");
+    this.img = new Image();
+    this.img.src = `./dist/images/${this.fileName}.png`;
+    this.attackPower = attackPower;
     // this.img = new Image // added img in draw so likely wont need this
     this.position = { // currently hidden off screen
       y: 20,
@@ -29,17 +31,14 @@ export default class Computer {
 
   // computer.js
   draw(ctx) { 
+    // made olivers changes for now, not sure if 
     // if (this.img) retu
-    let img = new Image();
-    const fileName = this.name.split(" ").join("");
+    // let img = new Image();
     const position = this.position;
     const height = this.height;
     const width = this.width;
-    img.onload = () => {
-      // debugger
-      ctx.drawImage(img, position.x, position.y, height, width);
-    }
-    img.src = `./dist/images/${fileName}.png`;
+    ctx.drawImage(this.img, position.x, position.y, height, width);
+    // img.src = `./dist/images/${fileName}.png`;
   }
 
   attack(opponent) { // opponent should be instance of player class
@@ -52,8 +51,11 @@ export default class Computer {
   }
 
   heal() { // just adds health back to 
-    const healing = Math.floor(Math.random() * 20) + 10;
+    const healing = Math.floor(Math.random() * 15) + 5;
     this.health += healing;
+    if (this.health >= 100) {
+      this.health = 100;
+    }
     console.log(`${this.name} healed for ${healing}!`);
   }
 
