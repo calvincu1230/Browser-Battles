@@ -31,14 +31,14 @@ export default class Computer {
 
   // computer.js
   draw(ctx) { 
-    // made olivers changes for now, not sure if 
-    // if (this.img) retu
-    // let img = new Image();
     const position = this.position;
     const height = this.height;
     const width = this.width;
     ctx.drawImage(this.img, position.x, position.y, height, width);
-    // img.src = `./dist/images/${fileName}.png`;
+  }
+
+  update(dt) {
+    
   }
 
   attack(opponent) { // opponent should be instance of player class
@@ -50,8 +50,8 @@ export default class Computer {
     console.log(`${this.name} attacked ${opponent.name} for ${dmg} damage!`);
   }
 
-  heal() { // just adds health back to 
-    const healing = Math.floor(Math.random() * 15) + 5;
+  heal() { // heal logic that will need to be reworked to consider players AP level
+    const healing = Math.floor(Math.random() * 10) + 5 + this.attackPower / 4;
     this.health += healing;
     if (this.health >= 100) {
       this.health = 100;
@@ -63,7 +63,8 @@ export default class Computer {
     // debugger
     const move = (this.health < 20 && opponent.health > 20) ? () => this.heal() : (opponent) => this.attack(opponent);
     // move(opponent);
-    window.setTimeout(() => move(opponent), 100);
+    console.log("Attacking")
+    setTimeout(() => move(opponent), 1000);
   }
 
 }

@@ -5,6 +5,7 @@ export default class Player {
     this.width = 150;
     this.health = health;
     this.gameHeight = gameHeight;
+    this.gameWidth = gameWidth;
     this.maxHealth = health;
     this.attackPower = attackPower;
     this.name = name; // only if browsers are ALL made by inputing data into this 
@@ -32,6 +33,10 @@ export default class Player {
     ctx.drawImage(this.img, position.x, position.y, height, width);
   }
 
+  update(dt) {
+    
+  }
+
   attack(opponent) { // opponent should be instance of opponent class
     const dmg = Math.floor(Math.random() * this.attackPower);
     opponent.health -= dmg;
@@ -42,7 +47,7 @@ export default class Player {
   }
 
   heal() { // just adds health back to 
-    const healing = Math.floor(Math.random() * 15) + 5;
+    const healing = Math.floor(Math.random() * 10) + 5 + this.attackPower / 4;
     this.health += healing;
     if (this.health >= 100) {
       this.health = 100;
