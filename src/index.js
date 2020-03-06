@@ -68,20 +68,17 @@ const gameInput = (e) => {
         break;
       case 13: // 13 is enter key
         e.preventDefault();
-        game.activeAttack = true;
+        // game.activeAttack = true;
         game.changeTurn();
-        // game.attacking = true;
         const action = game.battleOptions.options[selected];
         action(game.player, game.computer);
         break;
       // case 65: // 65 is the a key
       //   debugger
-      //   // game.attacking = true;
       //   game.changeTurn();
       //   game.player.attack(game.computer); // will evenutally call function that is currently selected in the battleText()
       //   break;
       // case 83: // 83 is s key
-      //   // game.attacking = true;
       //   game.changeTurn();
       //   game.player.heal();
       //   break;
@@ -111,10 +108,10 @@ function gameLoop(timestamp) {
   // game.computer.update(dt);
   game.computer.draw(ctx);
   // debugger
-  // game.playHealth.update(dt);
+  game.playHealth.update(dt);
   game.playHealth.draw(ctx);
 
-  // game.compHealth.update(dt);
+  game.compHealth.update(dt);
   game.compHealth.draw(ctx);
 
   // something along these lines

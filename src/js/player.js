@@ -4,6 +4,7 @@ export default class Player {
     this.height = 150;
     this.width = 150;
     this.health = health;
+    this.currentHealth = health;
     this.gameHeight = gameHeight;
     this.gameWidth = gameWidth;
     this.maxHealth = health;
@@ -60,7 +61,7 @@ export default class Player {
   }
 
   healAnimation() {
-    
+
   }
 
 }

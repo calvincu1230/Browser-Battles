@@ -9,6 +9,7 @@ export default class Computer {
     this.width = 150;
     this.gameWidth = gameWidth;
     this.health = health;
+    this.currentHealth = health;
     this.maxHealth = health;
     this.name = name; // only if browsers are ALL made by inputing data into this 
     this.fileName = this.name.split(" ").join("");
