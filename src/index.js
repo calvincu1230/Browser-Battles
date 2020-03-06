@@ -69,6 +69,11 @@ const gameInput = (e) => {
       case 13: // 13 is enter key
         e.preventDefault();
         // game.activeAttack = true;
+        if (selected === game.battleOptions.options.length - 1) {
+          return;
+          // do this below action and return when quiting so turn doesnt change and make computer go
+          // action(game.player, game.computer);
+        }
         game.changeTurn();
         const action = game.battleOptions.options[selected];
         action(game.player, game.computer);
