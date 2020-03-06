@@ -12,7 +12,7 @@ export default class Player {
     this.name = name; // only if browsers are ALL made by inputing data into this 
     this.fileName = this.name.split(" ").join("");
     this.img = new Image();
-    this.img.src = `../../images/${this.fileName}.png`;
+    this.img.src = `../images/${this.fileName}.png`;
     this.position = { // currently set off screen
       y: this.gameHeight - this.height - 50,
       x: 40
