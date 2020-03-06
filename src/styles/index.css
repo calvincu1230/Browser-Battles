@@ -3,7 +3,7 @@ body {
   background-color: rgba(100, 102, 100, 0.867);
   color: white;
   height: 97vh;
-  width: 100vw;
+  width: auto;
   display: flex;
   flex-direction: column;
   position: relative;
