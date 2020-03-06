@@ -64,7 +64,7 @@ export default class Computer {
     const move = (this.health < 20 && opponent.health > 20) ? () => this.heal() : (opponent) => this.attack(opponent);
     // move(opponent);
     console.log("Attacking")
-    setTimeout(() => move(opponent), 1000);
+    setTimeout(() => move(opponent), 500);
   }
 
 }

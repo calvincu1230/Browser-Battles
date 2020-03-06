@@ -46,6 +46,10 @@ export default class Player {
     console.log(`${this.name} attacked ${opponent.name} for ${dmg} damage!`);
   }
 
+  attackAnimation() {
+
+  }
+
   heal() { // just adds health back to 
     const healing = Math.floor(Math.random() * 10) + 5 + this.attackPower / 4;
     this.health += healing;
@@ -53,6 +57,10 @@ export default class Player {
       this.health = 100;
     }
     console.log(`${this.name} healed for ${healing}!`);
+  }
+
+  healAnimation() {
+    
   }
 
 }

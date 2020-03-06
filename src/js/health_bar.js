@@ -1,5 +1,7 @@
 export default class HealthBar {
   constructor(player) {
+    this.gameHeight = player.gameHeight;
+    this.gameWidth = player.gameWidth;
     this.height = 25;
     this.width = player.width * .75;
     this.player = player;
@@ -8,6 +10,10 @@ export default class HealthBar {
       x: player.position.x + player.width / 8,
       y: player.position.y + player.height + 10
     }
+  }
+
+  update(dt) {
+
   }
 
   draw(ctx) {

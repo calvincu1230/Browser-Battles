@@ -1,24 +1,23 @@
 import HealthBar from "./health_bar";
-// import Player from "./player";
-// import Computer from "./computer";
-// import GameInput from "./game_input";
+import BattleOptions from "./battle_options";
 
 export default class Game {
   constructor(player, computer) {
     this.player = player;
     this.computer = computer;
     this.gameState = true;
+    this.activeAttack = false;
     this.playHealth = new HealthBar(this.player);
     this.compHealth = new HealthBar(this.computer);
+    this.battleOptions = new BattleOptions(this.player.gameHeight, this.player.gameWidth);
     this.currentPlayer = this.player;
-    this. attacking = false; // only true during attack animation
     this.players = { // customize AP Health and texts later
       chrome: {
         health: 100,
         attackPower: 20,
         name: "Chrome",
-        attackText: "",
-        healText: ""
+        attackText: "Chrome used ",
+        healText: "Chrome used consume RAM and healed for "
       },
       firefox: {
         health: 100,
@@ -29,9 +28,9 @@ export default class Game {
       },
       ie: {
         health: 100,
-        attackPower: 20,
+        attackPower: 0,
         name: "Internet Explorer",
-        attackText: "",
+        attackText: "Used Obsolete, it's pretty useless and did ",
         healText: ""
       },
       safari: {
@@ -44,12 +43,12 @@ export default class Game {
     }
     this.changeTurn = this.changeTurn.bind(this);
   }
+  // i believe this can be done in event listener
+  // attackRequest(player, attack) {
+  //   if (this.currentPlayer === player) {
 
-  attackRequest(player, attack) {
-    if (this.currentPlayer === player) {
-
-    }
-  }
+  //   }
+  // }
 
   pause() {
     this.gameState = false;
@@ -59,8 +58,10 @@ export default class Game {
     // not sure how turn change will be handle yet
     if (this.currentPlayer === this.player) {
       this.currentPlayer = this.computer;
+      // this.attacking = false;
     } else {
       this.currentPlayer = this.player;
+      // this.attacking = false;
     }
   }
 

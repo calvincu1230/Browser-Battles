@@ -8,5 +8,3 @@
 // set false when attack is over
 // player will have while loop that will update
 
-// if selected option is < 0; selection === options.length - 1
-// if selected option is > options.length - 1; selection === 0
