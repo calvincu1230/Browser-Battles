@@ -8,8 +8,6 @@ const ctx = canvas.getContext("2d");
 const GAME_HEIGHT = 480;
 const GAME_WIDTH = 840;
 
-
-// add keydown eventListener to class "intro-menu"
 let game;
 let player;
 let computer;
@@ -69,13 +67,13 @@ const gameInput = (e) => {
       case 13: // 13 is enter key
         e.preventDefault();
         // game.activeAttack = true;
+        const action = game.battleOptions.options[selected];
         if (selected === game.battleOptions.options.length - 1) {
           return;
           // do this below action and return when quiting so turn doesnt change and make computer go
-          // action(game.player, game.computer);
+          // action();
         }
         game.changeTurn();
-        const action = game.battleOptions.options[selected];
         action(game.player, game.computer);
         break;
       // case 65: // 65 is the a key

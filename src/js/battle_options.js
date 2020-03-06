@@ -4,7 +4,7 @@ export default class BattleOptions {
     this.gameWidth = gameWidth;
     this.height = 125;
     this.width = 400;
-    this.selected = 2;
+    this.selected = 0;
     this.optionsText = ["Attack", "Heal", "Quit"]
     this.options = [this.attack, this.heal, this.quit];
     this.position = {

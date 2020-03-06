@@ -1,4 +1,71 @@
-body{background-color:rgba(100,102,100,0.867);color:white;height:97vh;width:100vw;display:flex;flex-direction:column;position:relative}.center{display:flex;align-items:center;justify-content:center}#game-board{background-color:#424233;z-index:3}.board{position:absolute;top:36px;left:180px}#board-background{position:relative;margin:auto;height:956px;width:1200px;background-image:url(images/mac-screen.png);background-position:center;background-size:contain;background-repeat:no-repeat}#player,#board{z-index:3;background:none}#img-loader{background-image:url(images/chrome.png)}
 
+body {
+  background-color: rgba(100, 102, 100, 0.867);
+  color: white;
+  height: 97vh;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-board {
+  background-image: url(images/battle_background.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.board {
+  position: absolute;
+  top: 36px;
+  left: 180px;
+}
+
+.intro-menu, .game-over {
+  z-index: 10;
+  background: rgba(0, 0, 0, .75);
+  height: 480px;
+  width: 840px;
+  font-size: 30px;
+  max-height: 480px;
+  max-width: 840px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-over {
+  background-color: black;
+}
+
+.menu-text {
+  opacity: 100%;
+}
+
+.close-menu {
+  display: none;
+}
+
+#board-background {
+  position: relative;
+  margin: auto;
+  height: 956px;
+  width: 1200px;
+  background-image: url(images/mac-screen.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#img-loader {
+  background-image: url(images/Chrome.png);
+  background-image: url(images/Firefox.png);
+}
 
 /*# sourceMappingURL=main.css.map*/
