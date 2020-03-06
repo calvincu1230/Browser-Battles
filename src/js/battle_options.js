@@ -1,11 +1,10 @@
 export default class BattleOptions {
-  constructor(player) {
-    this.player = player;
-    this.gameHeight = player.gameHeight;
-    this.gameWidth = player.gameWidth;
+  constructor(gameHeight, gameWidth) {
+    this.gameHeight = gameHeight;
+    this.gameWidth = gameWidth;
     this.height = 125;
     this.width = 400;
-    this.selected = 0;
+    this.selected = 2;
     this.optionsText = ["Attack", "Heal", "Quit"]
     this.options = [this.attack, this.heal, this.quit];
     this.position = {
@@ -14,13 +13,27 @@ export default class BattleOptions {
     }
   }
 
-  // update(dt) {
-  //   if (!dt) {
-
-  //   }
-
-
-  // }
+  drawLine(ctx, width) {
+    if (this.selected === 0) {
+      ctx.beginPath();
+      ctx.moveTo(width, this.gameHeight - 75);
+      ctx.lineTo(width + 85, this.gameHeight - 75);
+      ctx.closePath();
+      ctx.stroke();
+    } else if (this.selected === 1){
+      ctx.beginPath();
+      ctx.moveTo(width + 115, this.gameHeight - 75);
+      ctx.lineTo(width + 180, this.gameHeight - 75);
+      ctx.closePath();
+      ctx.stroke();
+    } else if (this.selected === 2) {
+      ctx.beginPath();
+      ctx.moveTo(width + 210, this.gameHeight - 75);
+      ctx.lineTo(width + 270, this.gameHeight - 75);
+      ctx.closePath();
+      ctx.stroke();
+    }
+  }
 
   draw(ctx){
     ctx.rect(this.position.x, this.position.y, this.width, this.height);
@@ -33,17 +46,19 @@ export default class BattleOptions {
     ctx.font = "30px Arial";
     ctx.fillStyle = "black";
     // ctx.textAlign = "center";
-    ctx.fillText(options, this.position.x + this.width / 6, this.position.y + this.height / 1.75);
-    ctx.beginPath();
-    ctx.moveTo(this.position.x + this.width / 6, );
+    const width = this.position.x + this.width / 6;
+    ctx.fillText(options, width, this.position.y + this.height / 1.75);
+    this.drawLine(ctx, width);
   }
 
   attack(currentPlayer, opponent) {
-    currentPlayer.attack(opponent) // will mainly just work for human player
+    currentPlayer.attack(opponent); // will mainly just work for human player
+    // currentPlayer.attackAnimation();
   }
 
   heal(currentPlayer) {
     currentPlayer.heal(); // will mainly just work for human player
+    // currentPlayer.healAnimation();
   }
 
   quit() {

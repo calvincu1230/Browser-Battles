@@ -44,78 +44,99 @@ const overListen = e => {
 };
 window.addEventListener("keypress", menuListen);
 
-
-// refactor eventually to add player based on key in puts on later screen
 const gameInput = (e) => {
-  if (game.currentPlayer === player) {
+  if (game.currentPlayer === game.player && game.activeAttack === false) {
+    let selected = game.battleOptions.selected;
     switch (e.keyCode) {
-      // case 37: // 37 is left arrow key
+      case 37: // 37 is left arrow key
+        e.preventDefault();
+        selected -= 1;
+        if (selected < 0) { // change selected to allow player to choose move with keys
+          game.battleOptions.selected = game.battleOptions.options.length - 1;
+        } else {
+          game.battleOptions.selected = selected;
+        }
+        break;
+      case 39: // 39 is right arrow key
+        e.preventDefault();
+        selected++;
+        if (selected > game.battleOptions.options.length - 1) {
+          game.battleOptions.selected = 0;
+        } else {
+          game.battleOptions.selected = selected;
+        }
+        break;
+      case 13: // 13 is enter key
+        e.preventDefault();
+        game.activeAttack = true;
+        game.changeTurn();
+        // game.attacking = true;
+        const action = game.battleOptions.options[selected];
+        action(game.player, game.computer);
+        break;
+      // case 65: // 65 is the a key
+      //   debugger
+      //   // game.attacking = true;
+      //   game.changeTurn();
+      //   game.player.attack(game.computer); // will evenutally call function that is currently selected in the battleText()
       //   break;
-      // case 38: // 38 is up arrow key
+      // case 83: // 83 is s key
+      //   // game.attacking = true;
+      //   game.changeTurn();
+      //   game.player.heal();
       //   break;
-      // case 39: // 39 is right arrow key        
-      //   break;
-      // case 40: // 40 is down arrow key        
-      //   break;
-      // case 13: // 13 is enter key
-      //   break;
-      case 65: // 65 is the a key
-      // if muted then unmute, otherwise mute
-        debugger
-        game.player.attack(game.computer);
-        game.currentPlayer = game.computer;
-      break;
-      case 83: // 83 is s key
-        game.player.heal();
-        game.currentPlayer = game.computer;
-      break;
       case 81: // 81 is q key
-      // if muted then unmute, otherwise mute
+        e.preventDefault();
       // maybe set game to null and send to menu? or an are you sure pause? w/ y / n listeners
-      break;
+        console.log("Button not implemented yet!");
+        break;
     }
   } else return;
 };
 
-// let prevTime = 0;
-// let count = 0;
+let prevTime = 0;
+
 function gameLoop(timestamp) {
-  // count++;
-  // if (count === 24) {
-    // let dt = timestamp - prevTime;
-    // prevTime = timestamp;
+  let dt = timestamp - prevTime;
+  prevTime = timestamp;
 
-    ctx.clearRect(0, 0, 840, 480);
-    // statusText();
-    if (game.currentPlayer === game.computer) {
-      game.computer.playTurn(game.player);
-      game.currentPlayer = game.player;
-    }
-    game.player.draw(ctx);
-    // debugger
-    game.computer.draw(ctx);
-    // debugger
-    game.playHealth.draw(ctx);
+  ctx.clearRect(0, 0, 840, 480);
+  if (game.currentPlayer === game.computer) {
+    game.computer.playTurn(game.player);
+    game.currentPlayer = game.player;
+  }
+  // game.player.update(dt);
+  game.player.draw(ctx);
+  // debugger
+  // game.computer.update(dt);
+  game.computer.draw(ctx);
+  // debugger
+  // game.playHealth.update(dt);
+  game.playHealth.draw(ctx);
 
-    game.compHealth.draw(ctx);
+  // game.compHealth.update(dt);
+  game.compHealth.draw(ctx);
 
-    // battleOptions();
-    // new GameInput(game);
-  
-    if (game.gameOver()) {
-      game.winner();
-      game = null;
-    }
-    // counat = 0;
+  // something along these lines
+  // if (game.currentPlayer.attacking) {
+  //   game.currentPlayer.statusText.draw(ctx);
+  // } else {
+    game.battleOptions.draw(ctx);
   // }
-  debugger
+  // new GameInput(game);
+
+  if (game.gameOver()) {
+    game.winner();
+    game = null;
+  }
+  // debugger
   if (game) {
     requestAnimationFrame(gameLoop);
   } else {
     cancelAnimationFrame(gameLoop);
     window.removeEventListener("keydown", gameInput);
     // ctx.clearRect(0, 0, 840, 480);
-    game = null;
+    // game = null;
     gameOver.classList.remove("close-menu");
     window.addEventListener("keypress", overListen);
   }
