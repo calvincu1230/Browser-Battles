@@ -16,7 +16,7 @@ body {
 }
 
 #game-board {
-  background-image: url("../images/battle_background.png");
+  background-image: url("../../images/battle_background.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -57,13 +57,13 @@ body {
   margin: auto;
   height: 956px;
   width: 1200px;
-  background-image: url("../images/mac-screen.png");
+  background-image: url("../../images/mac-screen.png");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-#img-loader {
-  background-image: url("../images/Chrome.png");
-  background-image: url("../images/Firefox.png");
-}
+/* #img-loader {
+  background-image: url("./images/Chrome.png");
+  background-image: url("./images/Firefox.png");
+} */
