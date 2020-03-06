@@ -1,21 +1,13 @@
 import "./styles/index.css";
 import Computer from "./js/computer";
 import Player from "./js/player";
-// import gameInput from "./js/game_input";
 import Game from "./js/game";
-// import Menu from "./js/menu";
-// import { menuInput } from "./js/menu_input";
-// import GameInput from "./js/game_input";
 
 const canvas = document.getElementById("game-board"); 
 const ctx = canvas.getContext("2d");
 const GAME_HEIGHT = 480;
 const GAME_WIDTH = 840;
-// const player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
-// const computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
-// const menu = new Menu(GAME_WIDTH, GAME_HEIGHT);
 
-// menu.draw(ctx);
 
 // add keydown eventListener to class "intro-menu"
 let game;
@@ -71,7 +63,6 @@ const gameInput = (e) => {
       // if muted then unmute, otherwise mute
         debugger
         game.player.attack(game.computer);
-      // console.log("I should be attacking")
         game.currentPlayer = game.computer;
       break;
       case 83: // 83 is s key
@@ -86,12 +77,6 @@ const gameInput = (e) => {
   } else return;
 };
 
-// if (game.currentPlayer === game.player) {
-  // not really sure what the plan was here
-  // }
-  // if (game) {
-    //   new GameInput(game);
-    // }
 // let prevTime = 0;
 // let count = 0;
 function gameLoop(timestamp) {
@@ -135,8 +120,3 @@ function gameLoop(timestamp) {
     window.addEventListener("keypress", overListen);
   }
 }
-
-// menuInput(GAME_HEIGHT, GAME_WIDTH, ctx); // used to test which keys were what codes
-// going to need this to only be called once maybe draw in initial game loop
-// player.draw(ctx); // just to draw chrome logo for now but it is offscreen
-// computer.draw(ctx)
