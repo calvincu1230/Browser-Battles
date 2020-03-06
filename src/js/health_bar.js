@@ -13,7 +13,7 @@ export default class HealthBar {
   }
 
   update(dt) {
-    debugger
+    // debugger
     if (this.player.currentHealth === this.player.health) return;
     if (this.player.currentHealth < this.player.health) {
       this.player.currentHealth++;
@@ -33,7 +33,7 @@ export default class HealthBar {
       this.height
       );
     ctx.fillStyle = "red";
-    debugger
+    // debugger
     ctx.fillRect(
       this.position.x, 
       this.position.y, 
