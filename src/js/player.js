@@ -1,3 +1,5 @@
+// import '../images';
+
 export default class Player {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
   

@@ -1,4 +1,5 @@
 // import Player from "./player";
+// import '../images'
 
 export default class Computer {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
@@ -14,7 +15,7 @@ export default class Computer {
     this.name = name; // only if browsers are ALL made by inputing data into this 
     this.fileName = this.name.split(" ").join("");
     this.img = new Image();
-    this.img.src = `./dist/images/${this.fileName}.png`;
+    this.img.src = `./images/${this.fileName}.png`;
     this.attackPower = attackPower;
     // this.img = new Image // added img in draw so likely wont need this
     this.position = { // currently hidden off screen

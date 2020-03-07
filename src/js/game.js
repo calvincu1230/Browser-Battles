@@ -1,6 +1,7 @@
 import HealthBar from "./health_bar";
 import BattleOptions from "./battle_options";
 
+
 export default class Game {
   constructor(player, computer) {
     this.player = player;
