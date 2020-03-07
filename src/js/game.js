@@ -6,42 +6,13 @@ export default class Game {
   constructor(player, computer) {
     this.player = player;
     this.computer = computer;
-    this.gameState = true;
+    this.gameState = true; // starts true to prevent early attacks while players get positioned
     this.activeAttack = false;
+    this.start = false;
     this.playHealth = new HealthBar(this.player);
     this.compHealth = new HealthBar(this.computer);
     this.battleOptions = new BattleOptions(this.player.gameHeight, this.player.gameWidth);
     this.currentPlayer = this.player;
-    this.players = { // customize AP Health and texts later
-      chrome: {
-        health: 100,
-        attackPower: 20,
-        name: "Chrome",
-        attackText: "Chrome used ",
-        healText: "Chrome used consume RAM and healed for "
-      },
-      firefox: {
-        health: 100,
-        attackPower: 20,
-        name: "Firefox",
-        attackText: "",
-        healText: ""
-      },
-      ie: {
-        health: 100,
-        attackPower: 0,
-        name: "Internet Explorer",
-        attackText: "Used Obsolete, it's pretty useless and did ",
-        healText: ""
-      },
-      safari: {
-        health: 100,
-        attackPower: 20,
-        name: "Safari",
-        attackText: "",
-        healText: ""
-      }
-    }
     this.changeTurn = this.changeTurn.bind(this);
   }
   // i believe this can be done in event listener
@@ -51,12 +22,7 @@ export default class Game {
   //   }
   // }
 
-  pause() {
-    this.gameState = false;
-  }
-
   changeTurn() {
-    // not sure how turn change will be handle yet
     if (this.currentPlayer === this.player) {
       this.currentPlayer = this.computer;
       // this.attacking = false;

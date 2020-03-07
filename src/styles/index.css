@@ -62,8 +62,8 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
 }
-
-/* #img-loader {
+/* this is my workaround for local images being webpacked` */
+#img-loader {
   background-image: url("../images/Chrome.png");
   background-image: url("../images/Firefox.png");
-} */
+}

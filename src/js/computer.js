@@ -1,6 +1,3 @@
-// import Player from "./player";
-// import '../images'
-
 export default class Computer {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
     // may be better to deconstruct obj to pass in traits from other browsers
@@ -9,22 +6,24 @@ export default class Computer {
     this.height = 150;
     this.width = 150;
     this.gameWidth = gameWidth;
+    this.gameHeight = gameHeight;
     this.health = health;
     this.currentHealth = health;
     this.maxHealth = health;
+    this.inPosition = false;
+    this.statusText = null;
     this.name = name; // only if browsers are ALL made by inputing data into this 
     this.fileName = this.name.split(" ").join("");
     this.img = new Image();
     this.img.src = `./dist/images/${this.fileName}.png`;
     this.attackPower = attackPower;
-    // this.img = new Image // added img in draw so likely wont need this
+    this.velocity = 55;
     this.position = { // currently hidden off screen
       y: 20,
       x: this.gameWidth - this.width - 40
     }
     this.initialPosition = { // currently hidden off screen
-      y: 20,
-      x: this.gameWidth + this.width
+      x: this.gameWidth
     }
 
     this.attack = this.attack.bind(this);
@@ -33,14 +32,23 @@ export default class Computer {
 
   // computer.js
   draw(ctx) { 
-    const position = this.position;
-    const height = this.height;
-    const width = this.width;
-    ctx.drawImage(this.img, position.x, position.y, height, width);
+    // if being attacked, dont draw just return
+    ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
   }
 
   update(dt) {
-    
+    if (!dt) return; // for initial dt being null
+    if (this.initialPosition.x > this.position.x) {
+      this.initialPosition.x -= this.velocity / dt;
+    }
+    if (this.initialPosition.x <= this.position.x) {
+      this.inPosition = true; // flags player as in position
+    }
+    // if (/* attacking */true) {
+    //   // attack animation()
+    // } else if (/* initialPos !== to position */ true) {
+    //   // increment 
+    // }
   }
 
   attack(opponent) { // opponent should be instance of player class

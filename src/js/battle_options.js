@@ -45,7 +45,6 @@ export default class BattleOptions {
     const options = this.optionsText.join("    ");
     ctx.font = "30px Arial";
     ctx.fillStyle = "black";
-    // ctx.textAlign = "center";
     const width = this.position.x + this.width / 6;
     ctx.fillText(options, width, this.position.y + this.height / 1.75);
     this.drawLine(ctx, width);
@@ -62,6 +61,7 @@ export default class BattleOptions {
   }
 
   quit() {
+    console.log("Button not implemented yet!");
     // will quit the game
     // renders html overlay with y and n listeners to confirm
     // if n go away, if y call reset

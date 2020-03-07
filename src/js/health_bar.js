@@ -25,6 +25,7 @@ export default class HealthBar {
 
   draw(ctx) {
     // draw box with player health
+    if (!this.player.inPosition) return;
     ctx.fillStyle = "white";
     ctx.fillRect(
       this.position.x, 

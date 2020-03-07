@@ -3,6 +3,37 @@ import Computer from "./js/computer";
 import Player from "./js/player";
 import Game from "./js/game";
 
+const players = { // customize AP Health and texts later
+  chrome: {
+    health: 100,
+    attackPower: 20,
+    name: "Chrome",
+    attackText: "Chrome used ",
+    healText: "Chrome used consume RAM and healed for "
+  },
+  firefox: {
+    health: 100,
+    attackPower: 20,
+    name: "Firefox",
+    attackText: "",
+    healText: ""
+  },
+  ie: {
+    health: 100,
+    attackPower: 0,
+    name: "Internet Explorer",
+    attackText: "Used Obsolete, it's pretty useless and did ",
+    healText: ""
+  },
+  safari: {
+    health: 100,
+    attackPower: 20,
+    name: "Safari",
+    attackText: "",
+    healText: ""
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("game-board"); 
   const ctx = canvas.getContext("2d");
@@ -26,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameLoop();
     }
   };
+  window.addEventListener("keypress", menuListen);
   
   const gameOver = document.getElementById("game-over");
   const overListen = e => {
@@ -41,10 +73,28 @@ document.addEventListener("DOMContentLoaded", () => {
       gameLoop();
     }
   };
-  window.addEventListener("keypress", menuListen);
+
+  // const selectMenu = document.getElementById("select-menu");
+  // const selectBrowser = e => {
+  //   if (e.keyCode === 32) {
+  //     ctx.clearRect(0, 0, 840, 480);
+  //     // statusText.draw();
+  //     selectMenu.classList.add("close-menu");
+  //     window.removeEventListener("keypress", selectBrowser)
+  //     window.addEventListener("keydown", gameInput)
+  //     player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
+  //     computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
+  //     game = new Game(player, computer);
+  //     gameLoop();
+  //   }
+  // };
   
   const gameInput = (e) => {
-    if (game.currentPlayer === game.player && game.activeAttack === false) {
+    if (game.player.inPosition && game.computer.inPosition) {
+      debugger
+      game.start = true;
+    }
+    if (game.currentPlayer === game.player && game.activeAttack === false && game.start === true) {
       let selected = game.battleOptions.selected;
       switch (e.keyCode) {
         case 37: // 37 is left arrow key
@@ -70,26 +120,12 @@ document.addEventListener("DOMContentLoaded", () => {
           // game.activeAttack = true;
           const action = game.battleOptions.options[selected];
           if (selected === game.battleOptions.options.length - 1) {
+            action();
             return;
             // do this below action and return when quiting so turn doesnt change and make computer go
-            // action();
           }
           game.changeTurn();
           action(game.player, game.computer);
-          break;
-        // case 65: // 65 is the a key
-        //   debugger
-        //   game.changeTurn();
-        //   game.player.attack(game.computer); // will evenutally call function that is currently selected in the battleText()
-        //   break;
-        // case 83: // 83 is s key
-        //   game.changeTurn();
-        //   game.player.heal();
-        //   break;
-        case 81: // 81 is q key
-          e.preventDefault();
-        // maybe set game to null and send to menu? or an are you sure pause? w/ y / n listeners
-          console.log("Button not implemented yet!");
           break;
       }
     } else return;
@@ -102,14 +138,14 @@ document.addEventListener("DOMContentLoaded", () => {
     prevTime = timestamp;
   
     ctx.clearRect(0, 0, 840, 480);
-    if (game.currentPlayer === game.computer) {
+    if (game.currentPlayer === game.computer && game.activeAttack === false) {
       game.computer.playTurn(game.player);
       game.currentPlayer = game.player;
     }
-    // game.player.update(dt);
+    game.player.update(dt);
     game.player.draw(ctx);
     // debugger
-    // game.computer.update(dt);
+    game.computer.update(dt);
     game.computer.draw(ctx);
     // debugger
     game.playHealth.update(dt);
@@ -120,24 +156,20 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // something along these lines
     // if (game.currentPlayer.attacking) {
-    //   game.currentPlayer.statusText.draw(ctx);
+      // game.currentPlayer.statusText.draw(ctx);
     // } else {
       game.battleOptions.draw(ctx);
     // }
-    // new GameInput(game);
   
     if (game.gameOver()) {
       game.winner();
-      game = null;
     }
     // debugger
-    if (game) {
+    if (game.gameState) {
       requestAnimationFrame(gameLoop);
     } else {
       cancelAnimationFrame(gameLoop);
       window.removeEventListener("keydown", gameInput);
-      // ctx.clearRect(0, 0, 840, 480);
-      // game = null;
       gameOver.classList.remove("close-menu");
       window.addEventListener("keypress", overListen);
     }
