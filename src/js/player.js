@@ -14,7 +14,7 @@ export default class Player {
     this.name = name; // only if browsers are ALL made by inputing data into this 
     this.fileName = this.name.split(" ").join("");
     this.img = new Image();
-    this.img.src = `./dist/images/${this.fileName}.png`;
+    this.img.src = `./src/images/${this.fileName}.png`;
     this.velocity = 55;
     this.position = { // default start pos
       y: this.gameHeight - this.height - 50,
