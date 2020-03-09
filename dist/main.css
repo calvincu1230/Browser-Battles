@@ -23,8 +23,10 @@ body {
 
 .board {
   position: absolute;
+  /* top: 36px;
+  left: 180px; */
   top: 36px;
-  left: 180px;
+  left: 44px;
 }
 
 .intro-menu, .game-over {
@@ -55,8 +57,8 @@ body {
 #board-background {
   position: relative;
   margin: auto;
-  height: 956px;
-  width: 1200px;
+  height: 745px;
+  width: 925px;
   background-image: url(images/mac-screen.png);
   background-position: center;
   background-size: contain;
