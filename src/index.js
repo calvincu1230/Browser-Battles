@@ -117,15 +117,17 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
         case 13: // 13 is enter key
           e.preventDefault();
-          // game.activeAttack = true;
           const action = game.battleOptions.options[selected];
           if (selected === game.battleOptions.options.length - 1) {
             action();
-            return;
             // do this below action and return when quiting so turn doesnt change and make computer go
+            return;
           }
+          // game.activeAttack = true;
+          // ^^ will only flag if its an attack and not quit
           game.changeTurn();
           action(game.player, game.computer);
+          // will either attack or heal based on player choice
           break;
       }
     } else return;
