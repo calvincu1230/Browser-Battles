@@ -1,8 +1,14 @@
+import MovingObject from "./moving_object";
+
 export default class Computer {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
     // may be better to deconstruct obj to pass in traits from other browsers
     // const { health, attackPower, name } = NAME OF OBJ PASSED IN 
 
+    this.name = name; // only if browsers are ALL made by inputing data into this 
+    this.fileName = this.name.split(" ").join("");
+    this.img = new Image();
+    this.img.src = `./src/images/${this.fileName}.png`;
     this.height = 150;
     this.width = 150;
     this.gameWidth = gameWidth;
@@ -11,11 +17,10 @@ export default class Computer {
     this.currentHealth = health;
     this.maxHealth = health;
     this.inPosition = false;
+    this.attackItems = [];
+    this.inPosition = false;
     this.statusText = null;
-    this.name = name; // only if browsers are ALL made by inputing data into this 
-    this.fileName = this.name.split(" ").join("");
-    this.img = new Image();
-    this.img.src = `./src/images/${this.fileName}.png`;
+    this.attackText = null;
     this.attackPower = attackPower;
     this.velocity = 55;
     this.position = { // currently hidden off screen
@@ -57,7 +62,18 @@ export default class Computer {
     if (opponent.health <= 0) {
       opponent.health = 0;
     }
+    this.attackAnimation(opponent);
     console.log(`${this.name} attacked ${opponent.name} for ${dmg} damage!`);
+  }
+
+  attackAnimation(opponent) {
+    let counter = 0;
+    // let attack = true;
+    const attack = setInterval(() => {
+      counter++;
+      if (counter === 3) clearInterval(attack);
+      this.attackItems.push(new MovingObject(this, opponent));
+    },250);
   }
 
   heal() { // heal logic that will need to be reworked to consider players AP level

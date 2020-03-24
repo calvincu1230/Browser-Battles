@@ -3,36 +3,36 @@ import Computer from "./js/computer";
 import Player from "./js/player";
 import Game from "./js/game";
 
-const players = { // customize AP Health and texts later
-  chrome: {
+const players = [ // customize AP Health and texts later
+  {
     health: 100,
     attackPower: 20,
     name: "Chrome",
     attackText: "Chrome used ",
-    healText: "Chrome used consume RAM and healed for "
+    healText: " used consume RAM and healed for "
   },
-  firefox: {
+  {
     health: 100,
     attackPower: 20,
     name: "Firefox",
     attackText: "",
     healText: ""
   },
-  ie: {
+  {
     health: 100,
     attackPower: 0,
     name: "Internet Explorer",
     attackText: "Used Obsolete, it's pretty useless and did ",
     healText: ""
   },
-  safari: {
+  {
     health: 100,
     attackPower: 20,
     name: "Safari",
     attackText: "",
     healText: ""
   }
-}
+]
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("game-board"); 
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const gameInput = (e) => {
     if (game.player.inPosition && game.computer.inPosition) {
-      debugger
+      // debugger
       game.start = true;
     }
     if (game.currentPlayer === game.player && game.activeAttack === false && game.start === true) {
@@ -143,10 +143,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (game.currentPlayer === game.computer && game.activeAttack === false) {
       game.computer.playTurn(game.player);
       game.currentPlayer = game.player;
+      // set timeout flag for player turns
     }
     game.player.update(dt);
     game.player.draw(ctx);
-    // debugger
+ 
+    game.currentPlayer.attackItems.forEach((item, idx) => {
+      console.log(game.currentPlayer.attackItems);
+      if (item.done) delete game.currentPlayer.attackItems[idx];
+      item.update(dt);
+      item.draw(ctx);
+    });
+
     game.computer.update(dt);
     game.computer.draw(ctx);
     // debugger

@@ -1,6 +1,12 @@
+import MovingObject from "./moving_object";
+
 export default class Player {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
   
+    this.name = name; // only if browsers are ALL made by inputing data into this 
+    this.fileName = this.name.split(" ").join("");
+    this.img = new Image();
+    this.img.src = `./src/images/${this.fileName}.png`;
     this.height = 150;
     this.width = 150;
     this.health = health;
@@ -8,13 +14,12 @@ export default class Player {
     this.gameHeight = gameHeight;
     this.gameWidth = gameWidth;
     this.maxHealth = health;
+    this.attackItems = [];
     this.inPosition = false;
     this.statusText = null;
+    this.attackText = null; // change later for more customized messages
+    this.healText = null; // change later for more customized messages
     this.attackPower = attackPower;
-    this.name = name; // only if browsers are ALL made by inputing data into this 
-    this.fileName = this.name.split(" ").join("");
-    this.img = new Image();
-    this.img.src = `./src/images/${this.fileName}.png`;
     this.velocity = 55;
     this.position = { // default start pos
       y: this.gameHeight - this.height - 50,
@@ -52,14 +57,22 @@ export default class Player {
   attack(opponent) { // opponent should be instance of opponent class
     const dmg = Math.floor(Math.random() * this.attackPower);
     opponent.health -= dmg;
+    this.attackAnimation(opponent);
     if (opponent.health <= 0) {
       opponent.health = 0;
     }
+    // this.statusText = `${this.name} used ${this.attackText} on ${opponent.name} for ${dmg} damage!`;
     console.log(`${this.name} attacked ${opponent.name} for ${dmg} damage!`);
   }
 
-  attackAnimation() {
-
+  attackAnimation(opponent) {
+    let counter = 0;
+    // let attack = true;
+    const attack = setInterval(() => {
+      counter++;
+      if (counter === 3) clearInterval(attack);
+      this.attackItems.push(new MovingObject(this, opponent));
+    },250)
   }
 
   heal() { // just adds health back to 
@@ -69,6 +82,7 @@ export default class Player {
     if (this.health >= 100) {
       this.health = 100;
     }
+    // this.statusText = `${this.name} used ${this.healText} to heal for ${healing}!`;
     console.log(`${this.name} healed for ${healing}!`);
   }
 
