@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // do this below action and return when quiting so turn doesnt change and make computer go
             return;
           }
-          // game.activeAttack = true;
+          game.activeAttack = true;
           // ^^ will only flag if its an attack and not quit
           game.changeTurn();
           action(game.player, game.computer);
@@ -140,23 +140,24 @@ document.addEventListener("DOMContentLoaded", () => {
     prevTime = timestamp;
   
     ctx.clearRect(0, 0, 840, 480);
+    // let attackItems;
+
+    if (!game.computer.attacking && !game.player.attacking) game.activeAttack = false;
     if (game.currentPlayer === game.computer && game.activeAttack === false) {
+      game.activeAttack = true;
+      debugger
       game.computer.playTurn(game.player);
+      // attackItems.concat(game.computer.attackItems);
       game.currentPlayer = game.player;
       // set timeout flag for player turns
     }
+
     game.player.update(dt);
-    game.player.draw(ctx);
- 
-    game.currentPlayer.attackItems.forEach((item, idx) => {
-      console.log(game.currentPlayer.attackItems);
-      if (item.done) delete game.currentPlayer.attackItems[idx];
-      item.update(dt);
-      item.draw(ctx);
-    });
+    game.player.draw(ctx, dt);
+    // if player is attacking, render
 
     game.computer.update(dt);
-    game.computer.draw(ctx);
+    game.computer.draw(ctx, dt);
     // debugger
     game.playHealth.update(dt);
     game.playHealth.draw(ctx);
@@ -171,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
       game.battleOptions.draw(ctx);
     // }
   
-    if (game.gameOver()) {
+    if (game.gameOver() && !game.activeAttack) {
       game.winner();
     }
     // debugger

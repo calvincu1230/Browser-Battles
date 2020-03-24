@@ -16,6 +16,7 @@ export default class Computer {
     this.health = health;
     this.currentHealth = health;
     this.maxHealth = health;
+    this.attacking = false;
     this.inPosition = false;
     this.attackItems = [];
     this.inPosition = false;
@@ -25,7 +26,7 @@ export default class Computer {
     this.velocity = 55;
     this.position = { // currently hidden off screen
       y: 20,
-      x: this.gameWidth - this.width - 40
+      x: this.gameWidth - this.width - 50
     }
     this.initialPosition = { // currently hidden off screen
       x: this.gameWidth
@@ -36,9 +37,15 @@ export default class Computer {
   }
 
   // computer.js
-  draw(ctx) { 
+  draw(ctx, dt) { 
     // if being attacked, dont draw just return
     ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
+    this.attackItems.forEach((item, idx) => {
+      if (item.done) delete this.attackItems[idx];
+      // check for collision, if there is, reduce health
+      item.update(dt);
+      item.draw(ctx);
+    });
   }
 
   update(dt) {
@@ -57,6 +64,7 @@ export default class Computer {
   }
 
   attack(opponent) { // opponent should be instance of player class
+    this.attacking = true;
     const dmg = Math.floor(Math.random() * this.attackPower);
     opponent.health -= dmg;
     if (opponent.health <= 0) {
@@ -68,11 +76,13 @@ export default class Computer {
 
   attackAnimation(opponent) {
     let counter = 0;
-    // let attack = true;
     const attack = setInterval(() => {
       counter++;
-      if (counter === 3) clearInterval(attack);
       this.attackItems.push(new MovingObject(this, opponent));
+      if (counter === 3) {
+        clearInterval(attack);
+        this.attacking = false;
+      }
     },250);
   }
 
@@ -88,8 +98,7 @@ export default class Computer {
   playTurn(opponent) { // if health is low and opponent has more than low hp, heal
     // debugger
     const move = (this.health < 20 && opponent.health > 20) ? () => this.heal() : (opponent) => this.attack(opponent);
-    // move(opponent);
-    console.log("Attacking")
+    // chooses to attack or curHealth based on health and Opp health
     setTimeout(() => move(opponent), 500);
   }
 

@@ -34,9 +34,15 @@ export default class Player {
   }
 
   // player.js
-  draw(ctx) {
+  draw(ctx, dt) {
     // if being attacked, dont draw just return
     ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
+    this.attackItems.forEach((item, idx) => {
+      if (item.done) delete this.attackItems[idx];
+      // check for collision, if there is, reduce health
+      item.update(dt);
+      item.draw(ctx);
+    });
   }
 
   update(dt) {
@@ -55,7 +61,8 @@ export default class Player {
   }
 
   attack(opponent) { // opponent should be instance of opponent class
-    const dmg = Math.floor(Math.random() * this.attackPower);
+    this.attacking = true;
+    const dmg = Math.floor((Math.random() + .25) * this.attackPower); // add this to comp if it works
     opponent.health -= dmg;
     this.attackAnimation(opponent);
     if (opponent.health <= 0) {
@@ -67,12 +74,14 @@ export default class Player {
 
   attackAnimation(opponent) {
     let counter = 0;
-    // let attack = true;
     const attack = setInterval(() => {
       counter++;
-      if (counter === 3) clearInterval(attack);
       this.attackItems.push(new MovingObject(this, opponent));
-    },250)
+      if (counter === 3) {
+        clearInterval(attack);
+        setTimeout(() => this.attacking = false, 2000);
+      }
+    },250);
   }
 
   heal() { // just adds health back to 
