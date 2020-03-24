@@ -1,7 +1,8 @@
 export default class BattleOptions {
-  constructor(gameHeight, gameWidth) {
+  constructor(gameHeight, gameWidth, game) {
     this.gameHeight = gameHeight;
     this.gameWidth = gameWidth;
+    this.game = game;
     this.height = 125;
     this.width = 400;
     this.selected = 0;

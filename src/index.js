@@ -22,7 +22,7 @@ const players = [ // customize AP Health and texts later
     health: 100,
     attackPower: 0,
     name: "Internet Explorer",
-    attackText: "Used Obsolete, it's pretty useless and did ",
+    attackText: " used Obsolete, it's pretty useless and did ",
     healText: ""
   },
   {
@@ -91,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const gameInput = (e) => {
     if (game.player.inPosition && game.computer.inPosition) {
-      // debugger
       game.start = true;
     }
     if (game.currentPlayer === game.player && game.activeAttack === false && game.start === true) {
@@ -101,19 +100,17 @@ document.addEventListener("DOMContentLoaded", () => {
           e.preventDefault();
           selected -= 1;
           if (selected < 0) { // change selected to allow player to choose move with keys
-            game.battleOptions.selected = game.battleOptions.options.length - 1;
-          } else {
-            game.battleOptions.selected = selected;
+            selected = game.battleOptions.options.length - 1;
           }
+          game.battleOptions.selected = selected;
           break;
         case 39: // 39 is right arrow key
           e.preventDefault();
           selected++;
           if (selected > game.battleOptions.options.length - 1) {
-            game.battleOptions.selected = 0;
-          } else {
-            game.battleOptions.selected = selected;
+            selected = 0;
           }
+          game.battleOptions.selected = selected;
           break;
         case 13: // 13 is enter key
           e.preventDefault();
@@ -140,42 +137,40 @@ document.addEventListener("DOMContentLoaded", () => {
     prevTime = timestamp;
   
     ctx.clearRect(0, 0, 840, 480);
-    // let attackItems;
 
     if (!game.computer.attacking && !game.player.attacking) game.activeAttack = false;
     if (game.currentPlayer === game.computer && game.activeAttack === false) {
       game.activeAttack = true;
-      debugger
       game.computer.playTurn(game.player);
-      // attackItems.concat(game.computer.attackItems);
       game.currentPlayer = game.player;
       // set timeout flag for player turns
     }
 
     game.player.update(dt);
     game.player.draw(ctx, dt);
-    // if player is attacking, render
 
     game.computer.update(dt);
     game.computer.draw(ctx, dt);
-    // debugger
+
     game.playHealth.update(dt);
     game.playHealth.draw(ctx);
   
     game.compHealth.update(dt);
     game.compHealth.draw(ctx);
   
-    // something along these lines
-    // if (game.currentPlayer.attacking) {
-      // game.currentPlayer.statusText.draw(ctx);
-    // } else {
+    // logic may need tweaking, due to initial null & timeouts
+    if (game.activeAttack && game.currentPlayer.statusText) {
+      debugger
+      game.currentPlayer.statusText.update(ctx)
+      game.currentPlayer.statusText.draw(ctx)
+    } else {
       game.battleOptions.draw(ctx);
-    // }
+    }
   
     if (game.gameOver() && !game.activeAttack) {
       game.winner();
     }
-    // debugger
+
     if (game.gameState) {
       requestAnimationFrame(gameLoop);
     } else {
