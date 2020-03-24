@@ -84,7 +84,7 @@ export default class Player {
       this.attackItems.push(new MovingObject(this, opponent, dmg));
       if (counter === 3) {
         clearInterval(attack);
-        setTimeout(() => this.attacking = false, 1500);
+        setTimeout(() => this.attacking = false, 1750);
       }
     },250);
     console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);

@@ -106,7 +106,8 @@ export default class Computer {
     // debugger
     const move = (this.health < 20 && opponent.health > 20) ? () => this.heal() : (opponent) => this.attackAnimation(opponent);
     // chooses to attack or curHealth based on health and Opp health
-    setTimeout(() => move(opponent), 500);
+    // move(opponent);
+    setTimeout(() => move(opponent), 1);
   }
 
 }
