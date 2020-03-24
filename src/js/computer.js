@@ -32,7 +32,7 @@ export default class Computer {
       x: this.gameWidth
     }
 
-    this.attack = this.attack.bind(this);
+    this.attackAnimation = this.attackAnimation.bind(this);
     this.heal = this.heal.bind(this);
   }
 
@@ -41,7 +41,10 @@ export default class Computer {
     // if being attacked, dont draw just return
     ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
     this.attackItems.forEach((item, idx) => {
-      if (item.done) delete this.attackItems[idx];
+      if (item.done) {
+        item.handleCollision();
+        delete this.attackItems[idx];
+      }
       // check for collision, if there is, reduce health
       item.update(dt);
       item.draw(ctx);
@@ -63,27 +66,31 @@ export default class Computer {
     // }
   }
 
-  attack(opponent) { // opponent should be instance of player class
-    this.attacking = true;
-    const dmg = Math.floor(Math.random() * this.attackPower);
-    opponent.health -= dmg;
-    if (opponent.health <= 0) {
-      opponent.health = 0;
-    }
-    this.attackAnimation(opponent);
-    console.log(`${this.name} attacked ${opponent.name} for ${dmg} damage!`);
-  }
+  // attack(opponent) { // opponent should be instance of player class
+  //   this.attacking = true;
+  //   const dmg = Math.floor(Math.random() * this.attackPower);
+  //   opponent.health -= dmg;
+  //   if (opponent.health <= 0) {
+  //     opponent.health = 0;
+  //   }
+  //   this.attackAnimation(opponent);
+  //   console.log(`${this.name} attacked ${opponent.name} for ${dmg} damage!`);
+  // }
 
   attackAnimation(opponent) {
+    this.attacking = true;
     let counter = 0;
+    const totalDmg = Math.floor(((Math.random() + .25) * this.attackPower));
+    const dmg = totalDmg / 3;
     const attack = setInterval(() => {
       counter++;
-      this.attackItems.push(new MovingObject(this, opponent));
+      this.attackItems.push(new MovingObject(this, opponent, dmg));
       if (counter === 3) {
         clearInterval(attack);
-        this.attacking = false;
+        setTimeout(() => this.attacking = false, 1500);
       }
     },250);
+    console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);
   }
 
   heal() { // heal logic that will need to be reworked to consider players AP level
@@ -97,7 +104,7 @@ export default class Computer {
 
   playTurn(opponent) { // if health is low and opponent has more than low hp, heal
     // debugger
-    const move = (this.health < 20 && opponent.health > 20) ? () => this.heal() : (opponent) => this.attack(opponent);
+    const move = (this.health < 20 && opponent.health > 20) ? () => this.heal() : (opponent) => this.attackAnimation(opponent);
     // chooses to attack or curHealth based on health and Opp health
     setTimeout(() => move(opponent), 500);
   }

@@ -1,7 +1,10 @@
 export default class MovingObject {
-  constructor(attacker, target) {
+  constructor(attacker, target, dmg) {
     this.height = 50;
     this.width = 50;
+    this.dmg = dmg;
+    this.name = attacker.name;
+    this.target = target;
     this.img = new Image();
     this.img.src = `./src/images/rock.png`
     this.position = {
@@ -22,12 +25,10 @@ export default class MovingObject {
     this.finalPos = this.xVelocity > 0 ? this.attackTop : this.attackBot;
   }
 
-  handleCollision(target) {
-    if (this.xVelocity < 0) {
-      this.finalPos = {
-        x: target.position.x + target.width,
-        y: target.position.y + target.height
-      }
+  handleCollision() {
+    this.target.health -= this.dmg;
+    if (this.target.health <= 0) {
+      this.target.health = 0;
     }
   }
 

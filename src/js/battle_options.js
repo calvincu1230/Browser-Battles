@@ -51,7 +51,7 @@ export default class BattleOptions {
   }
 
   attack(currentPlayer, opponent) {
-    currentPlayer.attack(opponent); // will mainly just work for human player
+    currentPlayer.attackAnimation(opponent); // will mainly just work for human player
     // currentPlayer.attackAnimation();
   }
 
