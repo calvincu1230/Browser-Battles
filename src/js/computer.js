@@ -40,7 +40,9 @@ export default class Computer {
   // computer.js
   draw(ctx, dt) { 
     // if being attacked, dont draw just return
-    ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
+    if (!this.attacked) {
+      ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
+    }
     this.attackItems.forEach((item, idx) => {
       if (item.done) {
         item.handleCollision();
@@ -60,6 +62,14 @@ export default class Computer {
     if (this.initialPosition.x <= this.position.x) {
       this.inPosition = true; // flags player as in position
     }
+  }
+
+  handleAttack() {
+    this.attacked = true;
+    const attackTimer = setInterval(() => {
+      clearInterval(attackTimer);
+      this.attacked = false;
+    }, 20);
   }
 
   // attack(opponent) { // opponent should be instance of player class

@@ -29,6 +29,7 @@ export default class MovingObject {
 
   handleCollision() {
     this.target.health -= this.dmg;
+    this.target.handleAttack();
     if (this.target.health <= 0) {
       this.target.health = 0;
     }

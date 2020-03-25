@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       menu.classList.add("close-menu");
       window.removeEventListener("keypress", menuListen)
       window.addEventListener("keydown", gameInput)
-      player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
+      player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
       computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
       game = new Game(player, computer);
       gameLoop();
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const gameOver = document.getElementById("game-over");
   const overListen = e => {
-    if (e.keyCode === 32) {
+    if (e.keyCode === 32) { // will redirect to main menu after space bar
       ctx.clearRect(0, 0, 840, 480);
       // statusText.draw();
       gameOver.classList.add("close-menu");
@@ -137,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     prevTime = timestamp;
   
     ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    ctx.beginPath();
 
     if (!game.computer.attacking && !game.player.attacking) game.activeAttack = false;
     if (game.currentPlayer === game.computer && !game.activeAttack) {
@@ -147,17 +148,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (game.currentPlayer === game.player && game.activeAttack) {
       if (!game.computer.statusText) game.battleOptions.draw(ctx);
-      else {
+      else { // due to change turn mechanics, correct status will not be on the current player
         game.computer.statusText.update(ctx);
         game.computer.statusText.draw(ctx);
       }
     } else if (game.currentPlayer === game.computer && game.activeAttack) {
       if (!game.computer.statusText) game.battleOptions.draw(ctx);
-      else {
+      else { // due to change turn mechanics, correct status will not be on the current player
         game.player.statusText.update(ctx);
         game.player.statusText.draw(ctx);
       }
-    } else {
+    } else { // if there is no active attack, draw options for human player
       game.battleOptions.draw(ctx);
     }
 
