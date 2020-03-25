@@ -13,7 +13,6 @@ export default class HealthBar {
   }
 
   update(dt) {
-    // debugger
     // using dt made it a fraction / doesn't work well with static increments that are numbers
     if (this.player.currentHealth === this.player.health) return;
     if (this.player.currentHealth < this.player.health) {
@@ -36,7 +35,6 @@ export default class HealthBar {
       this.height
       );
     ctx.fillStyle = "red";
-    // debugger
     ctx.fillRect(
       this.position.x, 
       this.position.y, 

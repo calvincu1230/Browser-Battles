@@ -7,6 +7,8 @@ export default class MovingObject {
     this.target = target;
     this.img = new Image();
     this.img.src = `./src/images/rock.png`
+    // may be helpful to have imgs per class with similar names so each will be unique
+    // maybe `./src/images/${this.name}item.png`
     this.position = {
       x: attacker.position.x + attacker.width / 2,
       y: attacker.position.y + 50
@@ -41,7 +43,6 @@ export default class MovingObject {
         this.done = true;
       }
     } else {
-      debugger
       if (this.position.x >= this.finalPos.x || this.position.y <= this.finalPos.y) {
         this.position.x += this.xVelocity / dt;
         this.position.y += this.yVelocity / dt;
