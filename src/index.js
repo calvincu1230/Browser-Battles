@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameOver = document.getElementById("game-over");
   const overListen = e => {
     if (e.keyCode === 32) { // will redirect to main menu after space bar
-      ctx.clearRect(0, 0, 840, 480);
+      // ctx.clearRect(0, 0, 840, 480);
       // statusText.draw();
       gameOver.classList.add("close-menu");
       window.removeEventListener("keypress", overListen)
@@ -139,27 +139,32 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     ctx.beginPath();
 
-    if (!game.computer.attacking && !game.player.attacking) game.activeAttack = false;
+    if (!game.computer.attacking && !game.player.attacking && game.gameState) game.activeAttack = false;
     if (game.currentPlayer === game.computer && !game.activeAttack) {
       game.activeAttack = true;
       game.computer.playTurn(game.player);
       game.currentPlayer = game.player;
       // set timeout flag for player turns
     }
-    if (game.currentPlayer === game.player && game.activeAttack) {
-      if (!game.computer.statusText) game.battleOptions.draw(ctx);
-      else { // due to change turn mechanics, correct status will not be on the current player
-        game.computer.statusText.update(ctx);
-        game.computer.statusText.draw(ctx);
+    if (game.winner()) {
+      game.winnerText.update();
+      game.winnerText.draw(ctx);
+    } else {
+      if (game.currentPlayer === game.player && game.activeAttack) {
+        if (!game.computer.statusText) game.battleOptions.draw(ctx);
+        else { // due to change turn mechanics, correct status will not be on the current player
+          game.computer.statusText.update();
+          game.computer.statusText.draw(ctx);
+        }
+      } else if (game.currentPlayer === game.computer && game.activeAttack) {
+        // if (!game.computer.statusText) game.battleOptions.draw(ctx);
+        // else { // due to change turn mechanics, correct status will not be on the current player
+          game.player.statusText.update();
+          game.player.statusText.draw(ctx);
+        // }
+      } else { // if there is no active attack, draw options for human player
+        game.battleOptions.draw(ctx);
       }
-    } else if (game.currentPlayer === game.computer && game.activeAttack) {
-      if (!game.computer.statusText) game.battleOptions.draw(ctx);
-      else { // due to change turn mechanics, correct status will not be on the current player
-        game.player.statusText.update(ctx);
-        game.player.statusText.draw(ctx);
-      }
-    } else { // if there is no active attack, draw options for human player
-      game.battleOptions.draw(ctx);
     }
 
     game.player.update(dt);
@@ -177,18 +182,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // logic may need tweaking, due to initial null & timeouts
   
     if (game.gameOver() && !game.activeAttack) {
-      // game just abruptly ends, needs fixing
-      // maybe game over
-      setTimeout(() => game.winner(), 2000);
+      game.activeAttack = true;
     }
 
     if (game.gameState) {
       requestAnimationFrame(gameLoop);
     } else {
       cancelAnimationFrame(gameLoop);
-      window.removeEventListener("keydown", gameInput);
-      gameOver.classList.remove("close-menu");
-      window.addEventListener("keypress", overListen);
+      setTimeout(() => {
+        // puts new overlay on the game if over to prompt play again
+        window.removeEventListener("keydown", gameInput); // removes gameplay listeners
+        gameOver.classList.remove("close-menu"); // displays overlay
+        window.addEventListener("keypress", overListen); // adds restart game listener
+      }, 1750);
     }
   }
 });

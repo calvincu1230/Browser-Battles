@@ -1,5 +1,6 @@
 import HealthBar from "./health_bar";
 import BattleOptions from "./battle_options";
+import StatusText from "./status_text";
 
 export default class Game {
   constructor(player, computer) {
@@ -11,6 +12,7 @@ export default class Game {
     this.playHealth = new HealthBar(this.player);
     this.compHealth = new HealthBar(this.computer);
     this.battleOptions = new BattleOptions(this.player.gameHeight, this.player.gameWidth, this);
+    this.winnerText = null;
     this.currentPlayer = this.player;
     this.status = null;
     this.changeTurn = this.changeTurn.bind(this);
@@ -27,19 +29,21 @@ export default class Game {
   }
 
   winner() {
+    let winnerText = "";
     if (this.player.health <= 0) {
-      console.log(`${this.computer.name} wins!`);
-      // this.reset();
+      winnerText = `${this.computer.name} wins!`;
     }
 
     if (this.computer.health <= 0) {
-      console.log(`${this.player.name} wins!`);
-      // this.reset();
+      winnerText = `${this.player.name} wins!`;
     }
+    if (!winnerText) return false;
+    this.winnerText = new StatusText(winnerText, this.player.gameHeight, this.player.gameWidth);
+    return true;
   }
 
   gameOver() {
-    if (this.player.health <= 0 || this.computer.health <= 0) {
+    if (this.player.currentHealth <= 0 || this.computer.currentHealth <= 0) {
       this.gameState = false;
       return true;
     }

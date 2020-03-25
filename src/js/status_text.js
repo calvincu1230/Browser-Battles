@@ -3,7 +3,6 @@ export default class StatusText {
     this.gameHeight = gameHeight;
     this.gameWidth = gameWidth;
     this.finalStatus = status;
-    this.status = this.finalStatus.split("");
     this.currentStatus = "";
     this.height = 125;
     this.width = 400;
@@ -31,8 +30,12 @@ export default class StatusText {
   }
 
   update() {
+    if (this.finalStatus.includes('win')) {
+      this.currentStatus = this.finalStatus;
+      return;
+    }
     if (this.count < this.length) {
-      this.currentStatus += this.status[this.count];
+      this.currentStatus += this.finalStatus[this.count];
       this.count++;
     }
   }

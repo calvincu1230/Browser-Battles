@@ -1,5 +1,6 @@
 import MovingObject from "./moving_object";
 import StatusText from "./status_text";
+import HealingObject from "./healing_object";
 
 export default class Player {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
@@ -16,7 +17,7 @@ export default class Player {
     this.maxHealth = health;
     this.attacking = false;
     this.attacked = false;
-    this.attackItems = [];
+    this.items = [];
     this.inPosition = false;
     this.statusText = null;
     this.attackText = null; // change later for more customized messages
@@ -41,10 +42,10 @@ export default class Player {
      if (!this.attacked) {
       ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
     }
-    this.attackItems.forEach((item, idx) => {
+    this.items.forEach((item, idx) => {
       if (item.done) {
         item.handleCollision();
-        delete this.attackItems[idx];
+        delete this.items[idx];
       }
       // check for collision, if there is, reduce health
       item.update(dt);
@@ -60,11 +61,6 @@ export default class Player {
     if (this.initialPosition.x >= this.position.x) {
       this.inPosition = true; // flags player as in position
     }
-    // if (/* attacking */true) {
-    //   // attack animation()
-    // } else if (/* initialPos !== to position */ true) {
-    //   // increment 
-    // }
   }
 
   handleAttack() {
@@ -93,7 +89,7 @@ export default class Player {
     const dmg = totalDmg / 3;
     const attack = setInterval(() => {
       counter++;
-      this.attackItems.push(new MovingObject(this, opponent, dmg));
+      this.items.push(new MovingObject(this, opponent, dmg));
       if (counter === 3) {
         clearInterval(attack);
       }
@@ -107,7 +103,7 @@ export default class Player {
 
   heal() { // just adds health back to 
     // const healing = Math.floor(Math.random() * 10) + 6 - this.attackPower / 4;
-    debugger
+    this.healAnimation();
     const healing = Math.floor(this.maxHealth * .10);
     this.statusText = new StatusText(`${this.name} healed for ${healing}!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
@@ -124,7 +120,20 @@ export default class Player {
   }
 
   healAnimation() {
-    // maybe just make a bunch of gold stars that move up 
+    let counter = 0;
+    let width = this.width / 5;
+    const xPos = this.position.x - this.width / 2;
+    const heals = setInterval(() => {
+      counter++;
+      if (counter === 10) {
+        clearInterval(heals);
+      }
+      if (counter === 6) {
+        width = this.width / 5;
+      }
+      width += this.width / 5;
+      this.items.push(new HealingObject((xPos + width), this.position.y + this.height / 2, this.height))
+    }, 100); 
   }
 
 }

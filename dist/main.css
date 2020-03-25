@@ -31,7 +31,7 @@ body {
 
 .intro-menu, .game-over {
   z-index: 10;
-  background: rgba(0, 0, 0, .75);
+  background: rgba(0, 0, 0, .50);
   height: 480px;
   width: 840px;
   font-size: 30px;

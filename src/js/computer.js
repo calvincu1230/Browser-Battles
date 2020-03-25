@@ -1,5 +1,6 @@
 import MovingObject from "./moving_object";
 import StatusText from "./status_text";
+import HealingObject from "./healing_object";
 
 export default class Computer {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
@@ -19,7 +20,7 @@ export default class Computer {
     this.maxHealth = health;
     this.attacking = false;
     this.inPosition = false;
-    this.attackItems = [];
+    this.items = [];
     this.inPosition = false;
     this.statusText = null;
     this.attackText = null;
@@ -43,10 +44,10 @@ export default class Computer {
     if (!this.attacked) {
       ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
     }
-    this.attackItems.forEach((item, idx) => {
+    this.items.forEach((item, idx) => {
       if (item.done) {
         item.handleCollision();
-        delete this.attackItems[idx];
+        delete this.items[idx];
       }
       // check for collision, if there is, reduce health
       item.update(dt);
@@ -84,14 +85,14 @@ export default class Computer {
   // }
 
   attackAnimation(opponent) {
-    const totalDmg = Math.floor(((Math.random() + .25) * this.attackPower));
+    const totalDmg = Math.floor(((Math.random() + .25) * this.attackPower)) + 10;
     this.statusText = new StatusText(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     let counter = 0;
     const dmg = totalDmg / 3;
     const attack = setInterval(() => {
       counter++;
-      this.attackItems.push(new MovingObject(this, opponent, dmg));
+      this.items.push(new MovingObject(this, opponent, dmg));
       if (counter === 3) {
         clearInterval(attack);
       }
@@ -103,7 +104,9 @@ export default class Computer {
     // console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);
   }
 
-  heal() { // heal logic that will need to be reworked to consider players AP level
+  heal() { // just adds health back to 
+    // const healing = Math.floor(Math.random() * 10) + 6 - this.attackPower / 4;
+    this.healAnimation();
     const healing = Math.floor(this.maxHealth * .10);
     this.statusText = new StatusText(`${this.name} healed for ${healing}!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
@@ -117,6 +120,23 @@ export default class Computer {
     }, 2500);
     // console.log(`${this.name} healed for ${healing}!`);
     // this.statusText = `${this.name} used ${this.healText} to heal for ${healing}!`;
+  }
+
+  healAnimation() {
+    let counter = 0;
+    let width = this.width / 5;
+    const xPos = this.position.x - this.width / 2;
+    const heals = setInterval(() => {
+      counter++;
+      if (counter === 10) {
+        clearInterval(heals);
+      }
+      if (counter === 6) {
+        width = this.width / 5;
+      }
+      width += this.width / 5;
+      this.items.push(new HealingObject((xPos + width), this.position.y + this.height / 2, this.height))
+    }, 100); 
   }
 
   playTurn(opponent) { // if health is low and opponent has more than low hp, heal
