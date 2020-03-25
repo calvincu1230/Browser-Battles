@@ -1,4 +1,5 @@
 import MovingObject from "./moving_object";
+import StatusText from "./status_text";
 
 export default class Computer {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
@@ -59,11 +60,6 @@ export default class Computer {
     if (this.initialPosition.x <= this.position.x) {
       this.inPosition = true; // flags player as in position
     }
-    // if (/* attacking */true) {
-    //   // attack animation()
-    // } else if (/* initialPos !== to position */ true) {
-    //   // increment 
-    // }
   }
 
   // attack(opponent) { // opponent should be instance of player class
@@ -78,35 +74,44 @@ export default class Computer {
   // }
 
   attackAnimation(opponent) {
+    const totalDmg = Math.floor(((Math.random() + .25) * this.attackPower));
+    this.statusText = new StatusText(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     let counter = 0;
-    const totalDmg = Math.floor(((Math.random() + .25) * this.attackPower));
     const dmg = totalDmg / 3;
     const attack = setInterval(() => {
       counter++;
       this.attackItems.push(new MovingObject(this, opponent, dmg));
       if (counter === 3) {
         clearInterval(attack);
-        setTimeout(() => this.attacking = false, 1500);
       }
-    },250);
-    console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);
+    }, 250);
+    const endAttack = setInterval(() => {
+      clearInterval(endAttack);
+      this.attacking = false
+    }, 2500);
+    // console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);
   }
 
   heal() { // heal logic that will need to be reworked to consider players AP level
-    const healing = Math.floor(Math.random() * 10) + 5 + this.attackPower / 4;
+    const healing = Math.floor(this.maxHealth * .10);
+    this.statusText = new StatusText(`${this.name} healed for ${healing}!`, this.gameHeight, this.gameWidth);
+    this.attacking = true;
     this.health += healing;
     if (this.health >= 100) {
       this.health = 100;
     }
-    console.log(`${this.name} healed for ${healing}!`);
+    const endAttack = setInterval(() => {
+      clearInterval(endAttack);
+      this.attacking = false;
+    }, 2500);
+    // console.log(`${this.name} healed for ${healing}!`);
+    // this.statusText = `${this.name} used ${this.healText} to heal for ${healing}!`;
   }
 
   playTurn(opponent) { // if health is low and opponent has more than low hp, heal
-    // debugger
     const move = (this.health < 20 && opponent.health > 20) ? () => this.heal() : (opponent) => this.attackAnimation(opponent);
     // chooses to attack or curHealth based on health and Opp health
-    // move(opponent);
     setTimeout(() => move(opponent), 1);
   }
 

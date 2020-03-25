@@ -1,7 +1,6 @@
 import HealthBar from "./health_bar";
 import BattleOptions from "./battle_options";
 
-
 export default class Game {
   constructor(player, computer) {
     this.player = player;
@@ -11,16 +10,11 @@ export default class Game {
     this.start = false;
     this.playHealth = new HealthBar(this.player);
     this.compHealth = new HealthBar(this.computer);
-    this.battleOptions = new BattleOptions(this.player.gameHeight, this.player.gameWidth);
+    this.battleOptions = new BattleOptions(this.player.gameHeight, this.player.gameWidth, this);
     this.currentPlayer = this.player;
+    this.status = null;
     this.changeTurn = this.changeTurn.bind(this);
   }
-  // i believe this can be done in event listener
-  // attackRequest(player, attack) {
-  //   if (this.currentPlayer === player) {
-
-  //   }
-  // }
 
   changeTurn() {
     if (this.currentPlayer === this.player) {

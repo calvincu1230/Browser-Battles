@@ -35,10 +35,10 @@ const players = [ // customize AP Health and texts later
 ]
 
 document.addEventListener("DOMContentLoaded", () => {
-  const canvas = document.getElementById("game-board"); 
-  const ctx = canvas.getContext("2d");
   const GAME_HEIGHT = 480;
   const GAME_WIDTH = 840;
+  const canvas = document.getElementById("game-board"); 
+  const ctx = canvas.getContext("2d");
   
   let game;
   let player;
@@ -136,14 +136,29 @@ document.addEventListener("DOMContentLoaded", () => {
     let dt = timestamp - prevTime;
     prevTime = timestamp;
   
-    ctx.clearRect(0, 0, 840, 480);
+    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
     if (!game.computer.attacking && !game.player.attacking) game.activeAttack = false;
-    if (game.currentPlayer === game.computer && game.activeAttack === false) {
+    if (game.currentPlayer === game.computer && !game.activeAttack) {
       game.activeAttack = true;
       game.computer.playTurn(game.player);
       game.currentPlayer = game.player;
       // set timeout flag for player turns
+    }
+    if (game.currentPlayer === game.player && game.activeAttack) {
+      if (!game.computer.statusText) game.battleOptions.draw(ctx);
+      else {
+        game.computer.statusText.update(ctx);
+        game.computer.statusText.draw(ctx);
+      }
+    } else if (game.currentPlayer === game.computer && game.activeAttack) {
+      if (!game.computer.statusText) game.battleOptions.draw(ctx);
+      else {
+        game.player.statusText.update(ctx);
+        game.player.statusText.draw(ctx);
+      }
+    } else {
+      game.battleOptions.draw(ctx);
     }
 
     game.player.update(dt);
@@ -159,16 +174,11 @@ document.addEventListener("DOMContentLoaded", () => {
     game.compHealth.draw(ctx);
   
     // logic may need tweaking, due to initial null & timeouts
-    if (game.activeAttack && game.currentPlayer.statusText) {
-      debugger
-      game.currentPlayer.statusText.update(ctx)
-      game.currentPlayer.statusText.draw(ctx)
-    } else {
-      game.battleOptions.draw(ctx);
-    }
   
     if (game.gameOver() && !game.activeAttack) {
-      game.winner();
+      // game just abruptly ends, needs fixing
+      // maybe game over
+      setTimeout(() => game.winner(), 2000);
     }
 
     if (game.gameState) {

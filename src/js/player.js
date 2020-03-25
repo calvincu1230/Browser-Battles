@@ -1,8 +1,8 @@
 import MovingObject from "./moving_object";
+import StatusText from "./status_text";
 
 export default class Player {
   constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
-  
     this.name = name; // only if browsers are ALL made by inputing data into this 
     this.fileName = this.name.split(" ").join("");
     this.img = new Image();
@@ -28,7 +28,6 @@ export default class Player {
     this.initialPosition = { // currently hidden off screen
       x: -this.width
     }
-
     this.attackAnimation = this.attackAnimation.bind(this);
     this.draw = this.draw.bind(this);
   }
@@ -75,34 +74,45 @@ export default class Player {
   // }
     
   attackAnimation(opponent) {
+    const totalDmg = Math.floor(((Math.random() + .25) * this.attackPower));
+    this.statusText = new StatusText(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     let counter = 0;
-    const totalDmg = Math.floor(((Math.random() + .25) * this.attackPower));
     const dmg = totalDmg / 3;
     const attack = setInterval(() => {
       counter++;
       this.attackItems.push(new MovingObject(this, opponent, dmg));
       if (counter === 3) {
         clearInterval(attack);
-        setTimeout(() => this.attacking = false, 1750);
       }
-    },250);
-    console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);
+    }, 250);
+    const endAttack = setInterval(() => {
+      clearInterval(endAttack);
+      this.attacking = false;
+    }, 2500);
+    // console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);
   }
 
   heal() { // just adds health back to 
     // const healing = Math.floor(Math.random() * 10) + 6 - this.attackPower / 4;
+    debugger
     const healing = Math.floor(this.maxHealth * .10);
+    this.statusText = new StatusText(`${this.name} healed for ${healing}!`, this.gameHeight, this.gameWidth);
+    this.attacking = true;
     this.health += healing;
     if (this.health >= 100) {
       this.health = 100;
     }
+    const endAttack = setInterval(() => {
+      clearInterval(endAttack);
+      this.attacking = false;
+    }, 2500);
+    // console.log(`${this.name} healed for ${healing}!`);
     // this.statusText = `${this.name} used ${this.healText} to heal for ${healing}!`;
-    console.log(`${this.name} healed for ${healing}!`);
   }
 
   healAnimation() {
-    // maybe just make a bunch of gold stars or
+    // maybe just make a bunch of gold stars that move up 
   }
 
 }

@@ -1,8 +1,20 @@
 export default class StatusText {
-  constructor(status) {
+  constructor(status, gameHeight, gameWidth) {
+    this.gameHeight = gameHeight;
+    this.gameWidth = gameWidth;
     this.finalStatus = status;
     this.status = this.finalStatus.split("");
     this.currentStatus = "";
+    this.height = 125;
+    this.width = 400;
+    this.count = 0;
+    this.length = status.length;
+    this.position = {
+      x: this.gameWidth - this.width - 50,
+      y: this.gameHeight - this.height - 30
+    }
+    this.draw = this.draw.bind(this);
+    this.update = this.update.bind(this);
   }
 // if lengths are not the same and status !== current, reset
   draw(ctx) {
@@ -12,19 +24,16 @@ export default class StatusText {
     ctx.lineWidth = 5;
     ctx.strokeStyle = "black";
     ctx.stroke();
-    ctx.font = "30px Arial";
+    ctx.font = "20px Arial";
     ctx.fillStyle = "black";
-    const width = this.position.x + this.width / 6;
+    const width = this.position.x + 20;
     ctx.fillText(this.currentStatus, width, this.position.y + this.height / 1.75);
   }
 
   update() {
-    if (!this.finalStatus.includes(this.currentStatus)) {
-      this.currentStatus = "";
-    } else if (this.finalStatus === this.currentStatus) {
-      return;
-    } else {
-      this.currentStatus += this.status.shift()
+    if (this.count < this.length) {
+      this.currentStatus += this.status[this.count];
+      this.count++;
     }
   }
 }
