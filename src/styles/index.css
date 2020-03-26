@@ -3,10 +3,16 @@ body {
   background-color: rgba(100, 102, 100, 0.867);
   color: white;
   height: 97vh;
+  line-height: 75px;
   width: auto;
   display: flex;
   flex-direction: column;
   position: relative;
+  font-family: 'Press Start 2P', sans-serif;
+}
+
+canvas {
+  font-family: inherit;
 }
 
 .center {
@@ -34,12 +40,11 @@ body {
   background: rgba(0, 0, 0, .50);
   height: 480px;
   width: 840px;
-  font-size: 30px;
+  font-size: 24px;
   max-height: 480px;
   max-width: 840px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  margin: auto;
 }
 
 .game-over {
@@ -47,7 +52,15 @@ body {
 }
 
 .menu-text {
+  font-size: 40px;
+  margin: auto;
+}
+
+.menu-text, .menu-subtext {
+  display: inline-block;
+  margin-top: 15%;
   opacity: 100%;
+  width: 100%;
 }
 
 .close-menu {

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./dist/main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="./src/images/favicon.ico">
     <title>Browser Battles</title>
   </head>
@@ -13,7 +14,10 @@
     <div class="main-content">
       <section id="board-background">
         <canvas id="game-board" class="board" height="480" width="840"></canvas>
-        <div id="menu" class="board intro-menu"><span class="menu-text">Press Spacebar to Battle!</span></div>
+        <div id="menu" class="board intro-menu">
+          <p class="menu-text">Browser Battles</p>
+          <span class="menu-subtext">Press Spacebar to Battle!</span>
+        </div>
         <div id="game-over" class="board game-over close-menu"><span class="menu-text">Press Spacebar to Play Again!</span></div>
       </section>
     </div>
