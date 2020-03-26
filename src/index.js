@@ -49,8 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.keyCode === 32) {
       ctx.clearRect(0, 0, 840, 480);
       menu.classList.add("close-menu");
-      window.removeEventListener("keypress", menuListen)
-      window.addEventListener("keydown", gameInput)
+      window.removeEventListener("keypress", menuListen);
+      window.addEventListener("keydown", gameInput);
       player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
       computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
       game = new Game(player, computer);
@@ -65,8 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // ctx.clearRect(0, 0, 840, 480);
       // statusText.draw();
       gameOver.classList.add("close-menu");
-      window.removeEventListener("keypress", overListen)
-      window.addEventListener("keydown", gameInput)
+      window.removeEventListener("keypress", overListen);
+      window.addEventListener("keydown", gameInput);
       player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
       computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
       game = new Game(player, computer);
@@ -116,9 +116,15 @@ document.addEventListener("DOMContentLoaded", () => {
           e.preventDefault();
           const action = game.battleOptions.options[selected];
           if (selected === game.battleOptions.options.length - 1) {
-            action();
+
+            // temporary, will add a confirm (y/n) overlay in case of accidental click
+            game = null;
+            menu.classList.remove("close-menu");
+            window.removeEventListener("keydown", gameInput);
+            window.addEventListener("keypress", menuListen);
+
             // do this below action and return when quiting so turn doesnt change and make computer go
-            return;
+            // return;
           }
           game.activeAttack = true;
           // ^^ will only flag if its an attack and not quit

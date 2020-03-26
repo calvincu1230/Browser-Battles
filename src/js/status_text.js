@@ -23,7 +23,7 @@ export default class StatusText {
     ctx.lineWidth = 5;
     ctx.strokeStyle = "black";
     ctx.stroke();
-    ctx.font = "20px Arial";
+    ctx.font = "16px Press Start 2P";
     ctx.fillStyle = "black";
     const width = this.position.x + 20;
     ctx.fillText(this.currentStatus, width, this.position.y + this.height / 1.75);

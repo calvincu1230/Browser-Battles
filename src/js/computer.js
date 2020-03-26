@@ -125,7 +125,7 @@ export default class Computer {
 
   healAnimation() {
     let counter = 0;
-    let width = this.width / 5;
+    let width = this.width / 4;
     const xPos = this.position.x - this.width / 2;
     const heals = setInterval(() => {
       counter++;
@@ -133,7 +133,7 @@ export default class Computer {
         clearInterval(heals);
       }
       if (counter === 6) {
-        width = this.width / 5;
+        width = this.width / 3;
       }
       width += this.width / 5;
       this.items.push(new HealingObject((xPos + width), this.position.y + this.height / 2, this.height))
