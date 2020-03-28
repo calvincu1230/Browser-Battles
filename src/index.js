@@ -2,6 +2,7 @@ import "./styles/index.css";
 import Computer from "./js/computer";
 import Player from "./js/player";
 import Game from "./js/game";
+import GameOptions from "./js/game_options";
 
 const players = [ // customize AP Health and texts later
   {
@@ -140,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   
   let prevTime = 0;
-  
+  let gameStartOptions = new GameOptions(players);
   function gameLoop(timestamp) {
     let dt = timestamp - prevTime;
     prevTime = timestamp;
@@ -148,62 +149,68 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     ctx.beginPath();
 
-    if (!game.computer.attacking && !game.player.attacking && game.gameState) game.activeAttack = false;
-    if (game.currentPlayer === game.computer && !game.activeAttack) {
-      game.activeAttack = true;
-      game.computer.playTurn(game.player);
-      game.currentPlayer = game.player;
-      // set timeout flag for player turns
-    }
-    if (game.winner()) {
-      game.winnerText.update();
-      game.winnerText.draw(ctx);
-    } else {
-      if (game.currentPlayer === game.player && game.activeAttack) {
-        if (!game.computer.statusText) game.battleOptions.draw(ctx);
-        else { // due to change turn mechanics, correct status will not be on the current player
-          game.computer.statusText.update();
-          game.computer.statusText.draw(ctx);
-        }
-      } else if (game.currentPlayer === game.computer && game.activeAttack) {
-        // if (!game.computer.statusText) game.battleOptions.draw(ctx);
-        // else { // due to change turn mechanics, correct status will not be on the current player
-          game.player.statusText.update();
-          game.player.statusText.draw(ctx);
-        // }
-      } else { // if there is no active attack, draw options for human player
-        game.battleOptions.draw(ctx);
-      }
-    }
-
-    game.player.update(dt);
-    game.player.draw(ctx, dt);
-
-    game.computer.update(dt);
-    game.computer.draw(ctx, dt);
-
-    game.playHealth.update(dt);
-    game.playHealth.draw(ctx);
-  
-    game.compHealth.update(dt);
-    game.compHealth.draw(ctx);
-  
-    // logic may need tweaking, due to initial null & timeouts
-  
-    if (game.gameOver() && !game.activeAttack) {
-      game.activeAttack = true;
-    }
-
-    if (game.gameState) {
+    if (!game) {
+      gameStartOptions.update();
+      gameStartOptions.draw(ctx);
       requestAnimationFrame(gameLoop);
     } else {
-      cancelAnimationFrame(gameLoop);
-      setTimeout(() => {
-        // puts new overlay on the game if over to prompt play again
-        window.removeEventListener("keydown", gameInput); // removes gameplay listeners
-        gameOver.classList.remove("close-menu"); // displays overlay
-        window.addEventListener("keydown", overListen); // adds restart game listener
-      }, 1750);
+      if (!game.computer.attacking && !game.player.attacking && game.gameState) game.activeAttack = false;
+      if (game.currentPlayer === game.computer && !game.activeAttack) {
+        game.activeAttack = true;
+        game.computer.playTurn(game.player);
+        game.currentPlayer = game.player;
+        // set timeout flag for player turns
+      }
+      if (game.winner()) {
+        game.winnerText.update();
+        game.winnerText.draw(ctx);
+      } else {
+        if (game.currentPlayer === game.player && game.activeAttack) {
+          if (!game.computer.statusText) game.battleOptions.draw(ctx);
+          else { // due to change turn mechanics, correct status will not be on the current player
+            game.computer.statusText.update();
+            game.computer.statusText.draw(ctx);
+          }
+        } else if (game.currentPlayer === game.computer && game.activeAttack) {
+          // if (!game.computer.statusText) game.battleOptions.draw(ctx);
+          // else { // due to change turn mechanics, correct status will not be on the current player
+            game.player.statusText.update();
+            game.player.statusText.draw(ctx);
+          // }
+        } else { // if there is no active attack, draw options for human player
+          game.battleOptions.draw(ctx);
+        }
+      }
+
+      game.player.update(dt);
+      game.player.draw(ctx, dt);
+
+      game.computer.update(dt);
+      game.computer.draw(ctx, dt);
+
+      game.playHealth.update(dt);
+      game.playHealth.draw(ctx);
+    
+      game.compHealth.update(dt);
+      game.compHealth.draw(ctx);
+    
+      // logic may need tweaking, due to initial null & timeouts
+    
+      if (game.gameOver() && !game.activeAttack) {
+        game.activeAttack = true;
+      }
+
+      if (game.gameState) {
+        requestAnimationFrame(gameLoop);
+      } else {
+        cancelAnimationFrame(gameLoop);
+        setTimeout(() => {
+          // puts new overlay on the game if over to prompt play again
+          window.removeEventListener("keydown", gameInput); // removes gameplay listeners
+          gameOver.classList.remove("close-menu"); // displays overlay
+          window.addEventListener("keydown", overListen); // adds restart game listener
+        }, 1750);
+      }
     }
   }
 });
