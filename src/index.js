@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.keyCode === 32) {
       ctx.clearRect(0, 0, 840, 480);
       menu.classList.add("close-menu");
-      window.removeEventListener("keypress", menuListen);
+      window.removeEventListener("keydown", menuListen);
       window.addEventListener("keydown", gameInput);
       player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
       computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameLoop();
     }
   };
-  window.addEventListener("keypress", menuListen);
+  window.addEventListener("keydown", menuListen);
   
   const gameOver = document.getElementById("game-over");
   const overListen = e => {
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // ctx.clearRect(0, 0, 840, 480);
       // statusText.draw();
       gameOver.classList.add("close-menu");
-      window.removeEventListener("keypress", overListen);
+      window.removeEventListener("keydown", overListen);
       window.addEventListener("keydown", gameInput);
       player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
       computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
@@ -74,20 +74,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // const selectMenu = document.getElementById("select-menu");
-  // const selectBrowser = e => {
-  //   if (e.keyCode === 32) {
-  //     ctx.clearRect(0, 0, 840, 480);
-  //     // statusText.draw();
-  //     selectMenu.classList.add("close-menu");
-  //     window.removeEventListener("keypress", selectBrowser)
-  //     window.addEventListener("keydown", gameInput)
-  //     player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
-  //     computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
-  //     game = new Game(player, computer);
-  //     gameLoop();
-  //   }
-  // };
+  const youSure = document.getElementById("you-sure");
+  const youSureListen = e => {
+    // debugger
+    if (e.keyCode === 121 || e.keyCode === 89) { // if they press y or Y
+      // end the game
+      youSure.classList.add("close-menu");
+      menu.classList.remove("close-menu");
+      window.removeEventListener("keydown", youSureListen);
+      window.addEventListener("keydown", menuListen);
+      game = null;
+    }
+    if (e.keyCode === 110 || e.keyCode === 78) { // if they press n or N
+      // remove event listener and turn game listener back on
+      youSure.classList.add("close-menu");
+      window.removeEventListener("keydown", youSureListen);
+      window.addEventListener("keydown", gameInput);
+    }
+  }
   
   const gameInput = (e) => {
     if (game.player.inPosition && game.computer.inPosition) {
@@ -97,34 +101,33 @@ document.addEventListener("DOMContentLoaded", () => {
       let selected = game.battleOptions.selected;
       switch (e.keyCode) {
         case 37: // 37 is left arrow key
-          e.preventDefault();
-          selected -= 1;
-          if (selected < 0) { // change selected to allow player to choose move with keys
-            selected = game.battleOptions.options.length - 1;
-          }
-          game.battleOptions.selected = selected;
-          break;
+        e.preventDefault();
+        selected -= 1;
+        if (selected < 0) { // change selected to allow player to choose move with keys
+          selected = game.battleOptions.options.length - 1;
+        }
+        game.battleOptions.selected = selected;
+        break;
         case 39: // 39 is right arrow key
-          e.preventDefault();
-          selected++;
-          if (selected > game.battleOptions.options.length - 1) {
-            selected = 0;
-          }
-          game.battleOptions.selected = selected;
-          break;
+        e.preventDefault();
+        selected++;
+        if (selected > game.battleOptions.options.length - 1) {
+          selected = 0;
+        }
+        game.battleOptions.selected = selected;
+        break;
         case 13: // 13 is enter key
           e.preventDefault();
           const action = game.battleOptions.options[selected];
           if (selected === game.battleOptions.options.length - 1) {
 
             // temporary, will add a confirm (y/n) overlay in case of accidental click
-            game = null;
-            menu.classList.remove("close-menu");
+            youSure.classList.remove("close-menu");
             window.removeEventListener("keydown", gameInput);
-            window.addEventListener("keypress", menuListen);
-
+            window.addEventListener("keydown", youSureListen);
+              
             // do this below action and return when quiting so turn doesnt change and make computer go
-            // return;
+            return;
           }
           game.activeAttack = true;
           // ^^ will only flag if its an attack and not quit
@@ -199,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // puts new overlay on the game if over to prompt play again
         window.removeEventListener("keydown", gameInput); // removes gameplay listeners
         gameOver.classList.remove("close-menu"); // displays overlay
-        window.addEventListener("keypress", overListen); // adds restart game listener
+        window.addEventListener("keydown", overListen); // adds restart game listener
       }, 1750);
     }
   }
