@@ -9,21 +9,21 @@ const players = [ // customize AP Health and texts later
     health: 100,
     attackPower: 20,
     name: "Chrome",
-    attackText: "Chrome used ",
-    healText: " used consume RAM and healed for "
+    attackText: "Chrome threw rocks at",
+    healText: "Chrome used consume RAM,"
   },
   {
     health: 100,
     attackPower: 20,
     name: "Firefox",
-    attackText: "",
-    healText: ""
+    attackText: "FireFox threw rocks at",
+    healText: "FireFox used a band-aid,"
   },
   {
     health: 100,
     attackPower: 0,
     name: "Internet Explorer",
-    attackText: " used Obsolete, it's pretty useless and did ",
+    attackText: "IE used Obsolete, it's pretty useless and hit",
     healText: ""
   },
   {
@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
       menu.classList.add("close-menu");
       window.removeEventListener("keydown", menuListen);
       window.addEventListener("keydown", gameInput);
-      player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
-      computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
+      player = new Player(players[0], GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
+      computer = new Computer(players[1], GAME_HEIGHT, GAME_WIDTH);
       game = new Game(player, computer);
       gameLoop();
     }
@@ -69,8 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
       gameOver.classList.add("close-menu");
       window.removeEventListener("keydown", overListen);
       window.addEventListener("keydown", gameInput);
-      player = new Player(100, 20, "Chrome", GAME_HEIGHT, GAME_WIDTH);
-      computer = new Computer(100, 20, "Firefox", GAME_HEIGHT, GAME_WIDTH);
+      player = new Player(players[0], GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
+      computer = new Computer(players[1], GAME_HEIGHT, GAME_WIDTH);
       game = new Game(player, computer);
       gameLoop();
     }
@@ -157,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.beginPath();
 
     if (!game) {
-      console.log("hi")
       gameStartOptions.update();
       gameStartOptions.draw(ctx);
       requestId = requestAnimationFrame(gameLoop);

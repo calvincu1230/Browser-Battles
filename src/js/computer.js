@@ -3,11 +3,8 @@ import StatusText from "./status_text";
 import HealingObject from "./healing_object";
 
 export default class Computer {
-  constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
-    // may be better to deconstruct obj to pass in traits from other browsers
-    // const { health, attackPower, name } = NAME OF OBJ PASSED IN 
-
-    this.name = name; // only if browsers are ALL made by inputing data into this 
+  constructor(player, gameHeight, gameWidth) { // width only would be used for opponent position
+    this.name = player.name; // only if browsers are ALL made by inputing data into this 
     this.fileName = this.name.split(" ").join("");
     this.img = new Image();
     this.img.src = `./src/images/${this.fileName}.png`;
@@ -15,16 +12,18 @@ export default class Computer {
     this.width = 150;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
-    this.health = health;
-    this.currentHealth = health;
-    this.maxHealth = health;
+    this.health = player.health;
+    this.currentHealth = player.health;
+    this.maxHealth = player.health;
     this.attacking = false;
+    this.attacked = false;
     this.inPosition = false;
     this.items = [];
     this.inPosition = false;
     this.statusText = null;
-    this.attackText = null;
-    this.attackPower = attackPower;
+    this.attackText = player.attackText;
+    this.healText = player.healText;
+    this.attackPower = player.attackPower;
     this.velocity = 55;
     this.position = { // currently hidden off screen
       y: 20,
@@ -33,9 +32,8 @@ export default class Computer {
     this.initialPosition = { // currently hidden off screen
       x: this.gameWidth
     }
-
-    this.attackAnimation = this.attackAnimation.bind(this);
-    this.heal = this.heal.bind(this);
+    // this.attackAnimation = this.attackAnimation.bind(this);
+    // this.heal = this.heal.bind(this);
   }
 
   // computer.js
@@ -87,7 +85,7 @@ export default class Computer {
   attackAnimation(opponent) {
     const num = Math.random();
     const totalDmg = Math.floor(((num < 0.1 ? .1 : num) * this.attackPower) + 5);
-    this.statusText = new StatusText(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
+    this.statusText = new StatusText(`${this.attackText} ${opponent.name} doing ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     let counter = 0;
     const dmg = totalDmg / 3;
@@ -109,7 +107,7 @@ export default class Computer {
     // const healing = Math.floor(Math.random() * 10) + 6 - this.attackPower / 4;
     this.healAnimation();
     const healing = Math.floor(this.maxHealth * .10);
-    this.statusText = new StatusText(`${this.name} healed for ${healing}!`, this.gameHeight, this.gameWidth);
+    this.statusText = new StatusText(`${this.healText} ${healing}!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     this.health += healing;
     if (this.health >= 100) {

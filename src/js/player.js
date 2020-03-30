@@ -3,26 +3,26 @@ import StatusText from "./status_text";
 import HealingObject from "./healing_object";
 
 export default class Player {
-  constructor(health, attackPower, name, gameHeight, gameWidth) { // width only would be used for opponent position
-    this.name = name; // only if browsers are ALL made by inputing data into this 
+  constructor(player, gameHeight, gameWidth) { // width only would be used for opponent position
+    this.name = player.name; // only if browsers are ALL made by inputing data into this 
     this.fileName = this.name.split(" ").join("");
     this.img = new Image();
     this.img.src = `./src/images/${this.fileName}.png`;
     this.height = 150;
     this.width = 150;
-    this.health = health;
-    this.currentHealth = health;
     this.gameHeight = gameHeight;
     this.gameWidth = gameWidth;
-    this.maxHealth = health;
+    this.health = player.health;
+    this.currentHealth = player.health;
+    this.maxHealth = player.health;
     this.attacking = false;
     this.attacked = false;
     this.items = [];
     this.inPosition = false;
     this.statusText = null;
-    this.attackText = null; // change later for more customized messages
-    this.healText = null; // change later for more customized messages
-    this.attackPower = attackPower;
+    this.attackText = player.attackText; // change later for more customized messages
+    this.healText = player.healText; // change later for more customized messages
+    this.attackPower = player.attackPower;
     this.velocity = 55;
     this.position = { // default start pos
       y: this.gameHeight - this.height - 50,
@@ -31,8 +31,8 @@ export default class Player {
     this.initialPosition = { // currently hidden off screen
       x: -this.width
     }
-    this.attackAnimation = this.attackAnimation.bind(this);
-    this.draw = this.draw.bind(this);
+    // this.attackAnimation = this.attackAnimation.bind(this);
+    // this.draw = this.draw.bind(this);
     // this.handleAttack = this.handleAttack.bind(this);
   }
 
@@ -44,8 +44,6 @@ export default class Player {
       ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
     }
     this.items = this.items.filter(item => item);
-    // console.log(this.items,    "player");
-    console.log(this.statusText,    "player");
     this.items.forEach((item, idx) => {
       if (item.done) {
         item.handleCollision();
@@ -89,7 +87,7 @@ export default class Player {
     this.attacking = true;
     const num = Math.random();
     const totalDmg = Math.floor(((num < 0.1 ? .10 : num) * this.attackPower) + 5);
-    this.statusText = new StatusText(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
+    this.statusText = new StatusText(`${this.attackText} ${opponent.name} doing ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
     let counter = 0;
     const dmg = totalDmg / 3;
     const attack = setInterval(() => {
@@ -110,7 +108,7 @@ export default class Player {
     // const healing = Math.floor(Math.random() * 10) + 6 - this.attackPower / 4;
     this.healAnimation();
     const healing = Math.floor(this.maxHealth * .10);
-    this.statusText = new StatusText(`${this.name} healed for ${healing}!`, this.gameHeight, this.gameWidth);
+    this.statusText = new StatusText(`${this.healText} healing for ${healing}!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     this.health += healing;
     if (this.health >= 100) {
