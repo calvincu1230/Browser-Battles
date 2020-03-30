@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameOver = document.getElementById("game-over");
   const overListen = e => {
     if (e.keyCode === 32) { // will redirect to main menu after space bar
-      // ctx.clearRect(0, 0, 840, 480);
       // statusText.draw();
       e.preventDefault();
       gameOver.classList.add("close-menu");
@@ -76,13 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
       gameLoop();
     }
   };
-
+  
   const youSure = document.getElementById("you-sure");
   const youSureListen = e => {
-    // debugger
     if (e.keyCode === 121 || e.keyCode === 89) { // if they press y or Y
-      // end the game
       e.preventDefault();
+      // end the game
+      ctx.clearRect(0, 0, 840, 480);
       youSure.classList.add("close-menu");
       menu.classList.remove("close-menu");
       player = null;
@@ -97,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
       youSure.classList.add("close-menu");
       window.removeEventListener("keydown", youSureListen);
       window.addEventListener("keydown", gameInput);
+      requestAnimationFrame(gameLoop);
     }
   }
   
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
           e.preventDefault();
           const action = game.battleOptions.options[selected];
           if (selected === game.battleOptions.options.length - 1) {
-
+            cancelAnimationFrame(requestId);
             // temporary, will add a confirm (y/n) overlay in case of accidental click
             youSure.classList.remove("close-menu");
             window.removeEventListener("keydown", gameInput);
@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   
   let prevTime = 0;
+  let requestId;
   let gameStartOptions = new GameOptions(players);
   function gameLoop(timestamp) {
     let dt = timestamp - prevTime;
@@ -159,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("hi")
       gameStartOptions.update();
       gameStartOptions.draw(ctx);
-      requestAnimationFrame(gameLoop);
+      requestId = requestAnimationFrame(gameLoop);
     } else {
       if (!game.computer.attacking && !game.player.attacking && game.gameState) game.activeAttack = false;
       if (game.currentPlayer === game.computer && !game.activeAttack) {
@@ -208,9 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (game.gameState) {
-        requestAnimationFrame(gameLoop);
+        requestId = requestAnimationFrame(gameLoop);
       } else {
-        cancelAnimationFrame(gameLoop);
+        cancelAnimationFrame(requestId);
         setTimeout(() => {
           // puts new overlay on the game if over to prompt play again
           window.removeEventListener("keydown", gameInput); // removes gameplay listeners

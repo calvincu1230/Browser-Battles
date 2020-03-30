@@ -7,7 +7,7 @@ export default class BattleOptions {
     this.width = 400;
     this.selected = 0;
     this.optionsText = ["Attack", "Heal", "Quit"]
-    this.options = [this.attack, this.heal, this.quit];
+    this.options = [this.attack, this.heal, null];
     this.position = {
       x: this.gameWidth - this.width - 50,
       y: this.gameHeight - this.height - 30
@@ -59,13 +59,6 @@ export default class BattleOptions {
   heal(currentPlayer) {
     currentPlayer.heal(); // will mainly just work for human player
     // currentPlayer.healAnimation();
-  }
-
-  quit() {
-    console.log("Button not implemented yet!");
-    // will quit the game
-    // renders html overlay with y and n listeners to confirm
-    // if n go away, if y call reset
   }
   
 }
