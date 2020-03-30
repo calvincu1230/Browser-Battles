@@ -38,10 +38,14 @@ export default class Player {
 
   // player.js
   draw(ctx, dt) {
-     // if being attacked, dont draw just return
-     if (!this.attacked) {
+    // debugger
+    // if being attacked, dont draw just return
+    if (!this.attacked) {
       ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
     }
+    this.items = this.items.filter(item => item);
+    // console.log(this.items,    "player");
+    console.log(this.statusText,    "player");
     this.items.forEach((item, idx) => {
       if (item.done) {
         item.handleCollision();
@@ -82,10 +86,10 @@ export default class Player {
   // }
     
   attackAnimation(opponent) {
+    this.attacking = true;
     const num = Math.random();
     const totalDmg = Math.floor(((num < 0.1 ? .10 : num) * this.attackPower) + 5);
     this.statusText = new StatusText(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
-    this.attacking = true;
     let counter = 0;
     const dmg = totalDmg / 3;
     const attack = setInterval(() => {

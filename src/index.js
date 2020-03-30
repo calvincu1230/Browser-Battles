@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const menu = document.getElementById("menu");
   const menuListen = e => {
     if (e.keyCode === 32) {
+      e.preventDefault();
       ctx.clearRect(0, 0, 840, 480);
       menu.classList.add("close-menu");
       window.removeEventListener("keydown", menuListen);
@@ -65,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.keyCode === 32) { // will redirect to main menu after space bar
       // ctx.clearRect(0, 0, 840, 480);
       // statusText.draw();
+      e.preventDefault();
       gameOver.classList.add("close-menu");
       window.removeEventListener("keydown", overListen);
       window.addEventListener("keydown", gameInput);
@@ -80,14 +82,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // debugger
     if (e.keyCode === 121 || e.keyCode === 89) { // if they press y or Y
       // end the game
+      e.preventDefault();
       youSure.classList.add("close-menu");
       menu.classList.remove("close-menu");
+      player = null;
+      computer = null;
+      game = null;
       window.removeEventListener("keydown", youSureListen);
       window.addEventListener("keydown", menuListen);
-      game = null;
     }
     if (e.keyCode === 110 || e.keyCode === 78) { // if they press n or N
       // remove event listener and turn game listener back on
+      e.preventDefault();
       youSure.classList.add("close-menu");
       window.removeEventListener("keydown", youSureListen);
       window.addEventListener("keydown", gameInput);
@@ -150,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.beginPath();
 
     if (!game) {
+      console.log("hi")
       gameStartOptions.update();
       gameStartOptions.draw(ctx);
       requestAnimationFrame(gameLoop);
