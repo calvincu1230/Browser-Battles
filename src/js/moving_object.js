@@ -23,7 +23,7 @@ export default class MovingObject {
     }
     this.xVelocity = attacker.position.x > target.position.x ? -150 : 150; // if start is greater, vel will be neg
     this.yVelocity = this.xVelocity === 150 ? -60 : 60; // Y vel is opp of x vel
-    this.rotation = 0;
+    // this.rotation = 0;
     this.finalPos = this.xVelocity > 0 ? this.attackTop : this.attackBot;
     this.done = false;
   }
@@ -44,7 +44,7 @@ export default class MovingObject {
       } else {
         this.done = true;
       }
-      this.rotation += 2;
+      // this.rotation += 1;
     } else {
       if (this.position.x >= this.finalPos.x || this.position.y <= this.finalPos.y) {
         this.position.x += this.xVelocity / dt;
@@ -52,18 +52,17 @@ export default class MovingObject {
       } else {
         this.done = true;
       }
-      this.rotation -= 2;
+      // this.rotation -= 1;
     }
   }
 
   draw(ctx) {
     if (this.done) return null;
-    ctx.save();
-    ctx.translate(this.position.x, this.position.y);
-    // ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);  
-    ctx.rotate((this.rotation % 360) * (Math.PI / 180));
-    ctx.translate(-this.position.x, -this.position.y);
+    // ctx.save();
+    // ctx.translate(this.position.x, this.position.y); 
+    // ctx.rotate(this.rotation * (Math.PI / 180));
+    // ctx.translate(-this.position.x, -this.position.y);
     ctx.drawImage(this.img, this.position.x, this.position.y, this.width, this.height);
-    ctx.restore();
+    // ctx.restore();
   }
 }
