@@ -55,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener("keydown", gameInput);
       player = new Player(players[0], GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
       computer = new Computer(players[1], GAME_HEIGHT, GAME_WIDTH);
-      game = new Game(player, computer);
+      // game = new Game(player, computer);
+      game = null; // THIS IS FOR TESTING ONLY CHANGE AFTER
       gameLoop();
     }
   };
@@ -71,7 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener("keydown", gameInput);
       player = new Player(players[0], GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
       computer = new Computer(players[1], GAME_HEIGHT, GAME_WIDTH);
-      game = new Game(player, computer);
+      // game = new Game(player, computer);
+      game = null;
       gameLoop();
     }
   };
@@ -101,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   const gameInput = (e) => {
+    if (!game) return;
     if (game.player.inPosition && game.computer.inPosition) {
       game.start = true;
     }
@@ -148,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   let prevTime = 0;
   let requestId;
-  let gameStartOptions = new GameOptions(players);
+  let gameStartOptions = new GameOptions(players, GAME_WIDTH, GAME_HEIGHT);
   function gameLoop(timestamp) {
     let dt = timestamp - prevTime;
     prevTime = timestamp;
