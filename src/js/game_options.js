@@ -1,41 +1,42 @@
 export default class GameOptions {
   constructor(optionsArr, gameWidth, gameHeight) {
     this.options = optionsArr;
-    this.selected = 2;
+    this.selected = 1;
     this.length = optionsArr.length;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
   }
 
-  drawBox(ctx) {
-    const width = 90 * this.selected + 40;
-    const height = (this.gameHeight / 2) - 30;
-    debugger
-    ctx.rect(width, height, width + 90, height - 110);
+  drawBox(ctx, x, y) {
+    // const height = (this.gameHeight / 2) - 30;
+    const width = this.selected === 2 ? 190 : 110;
+    const height = y - 205;
+
+    ctx.rect(x, y, width, height);
     ctx.lineWidth = 5;
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "white";
     ctx.stroke();
   }
 
   draw(ctx) {
-    // let width = 50 * this.selected + 25 * this.selected === 0 ? 1 : this.selected + 1;
-    let width = 50;
-    const height = this.gameHeight / 2;
+    let startX = 100;
+    const startY = this.gameHeight / 1.5; 
+
+    ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+    ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
+
     this.options.forEach((option, idx) => {
       const { name, attackPower, health } = option;
-      ctx.font = "16px Press Start 2P";
-      ctx.font = "30px Arial";
+
+      if (idx > 2) startX += 75; // makes up for internet explorer being a longer word
+      ctx.font = "22px Arial";
       ctx.fillStyle = "white";
-      ctx.fillText(`${name}`, width, height)
-      ctx.fillText(`AP: ${attackPower}`, width, height + 25)
-      ctx.fillText(`HP: ${health}`, width, height + 50)
-      width += 200;
+      ctx.fillText(`${name}`, startX, startY)
+      ctx.fillText(`AP: ${attackPower}`, startX, startY + 27)
+      ctx.fillText(`HP: ${health}`, startX, startY + 53)
+      if (idx === this.selected) this.drawBox(ctx, startX - 15, startY - 25)
+      startX += 150; // draws box at start pos of selected 
     });
     this.drawBox(ctx);
   }
-
-  update() {
-
-  }
-  
 }
