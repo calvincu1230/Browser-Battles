@@ -53,12 +53,10 @@ export default class BattleOptions {
 
   attack(currentPlayer, opponent) {
     currentPlayer.attackAnimation(opponent); // will mainly just work for human player
-    // currentPlayer.attackAnimation();
   }
 
   heal(currentPlayer) {
     currentPlayer.heal(); // will mainly just work for human player
-    // currentPlayer.healAnimation();
   }
   
 }
