@@ -32,15 +32,20 @@ export default class Computer {
     this.initialPosition = { // currently hidden off screen
       x: this.gameWidth
     }
-    // this.attackAnimation = this.attackAnimation.bind(this);
-    // this.heal = this.heal.bind(this);
+    this.checkName(player.name);
   }
 
+  checkName(name) {
+    if (name === "Internet Explorer") {
+      this.name = "IE";
+    }
+  }
+  
   // computer.js
   draw(ctx, dt) { 
     // if being attacked, dont draw just return
     if (!this.attacked) {
-      ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
+      ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.width, this.height);
     }
     this.items.forEach((item, idx) => {
       if (item.done) {
@@ -99,8 +104,7 @@ export default class Computer {
     const endAttack = setInterval(() => {
       clearInterval(endAttack);
       this.attacking = false
-    }, 2500);
-    // console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);
+    }, 2750);
   }
 
   heal() { // just adds health back to 
@@ -116,7 +120,7 @@ export default class Computer {
     const endAttack = setInterval(() => {
       clearInterval(endAttack);
       this.attacking = false;
-    }, 2500);
+    }, 2250);
   }
 
   healAnimation() {
@@ -141,5 +145,4 @@ export default class Computer {
     // chooses to attack or curHealth based on health and Opp health
     setTimeout(() => move(opponent), 1);
   }
-
 }

@@ -20,8 +20,8 @@ export default class Player {
     this.items = [];
     this.inPosition = false;
     this.statusText = null;
-    this.attackText = player.attackText; // change later for more customized messages
-    this.healText = player.healText; // change later for more customized messages
+    this.attackText = player.attackText;
+    this.healText = player.healText;
     this.attackPower = player.attackPower;
     this.velocity = 55;
     this.position = { // default start pos
@@ -31,20 +31,23 @@ export default class Player {
     this.initialPosition = { // currently hidden off screen
       x: -this.width
     }
-    // this.attackAnimation = this.attackAnimation.bind(this);
-    // this.draw = this.draw.bind(this);
-    // this.handleAttack = this.handleAttack.bind(this);
+    this.checkName(player.name);
+  }
+
+  checkName(name) {
+    if (name === "Internet Explorer") {
+      this.name = "IE";
+    }
   }
 
   // player.js
   draw(ctx, dt) {
-    // debugger
     // if being attacked, dont draw just return
     if (!this.attacked) {
-      ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.height, this.width);
+      ctx.drawImage(this.img, this.initialPosition.x, this.position.y, this.width, this.height);
     }
-    this.items = this.items.filter(item => item);
-    this.items.forEach((item, idx) => {
+    this.items = this.items.filter(item => item); // removes deleted objs
+    this.items.forEach((item, idx) => { // draws every object associated with player
       if (item.done) {
         item.handleCollision();
         delete this.items[idx];
@@ -100,8 +103,7 @@ export default class Player {
     const endAttack = setInterval(() => {
       clearInterval(endAttack);
       this.attacking = false;
-    }, 2500);
-    // console.log(`${this.name} attacked ${opponent.name} for ${totalDmg} damage!`);
+    }, 2750);
   }
 
   heal() { // just adds health back to 
@@ -117,9 +119,7 @@ export default class Player {
     const endAttack = setInterval(() => {
       clearInterval(endAttack);
       this.attacking = false;
-    }, 2500);
-    // console.log(`${this.name} healed for ${healing}!`);
-    // this.statusText = `${this.name} used ${this.healText} to heal for ${healing}!`;
+    }, 2250);
   }
 
   healAnimation() {
@@ -138,5 +138,4 @@ export default class Player {
       this.items.push(new HealingObject((xPos + width), this.position.y + this.height / 2, this.height))
     }, 100); 
   }
-
 }
