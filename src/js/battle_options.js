@@ -15,22 +15,23 @@ export default class BattleOptions {
   }
 
   drawLine(ctx, width) {
+    const height = this.gameHeight - 75;
     if (this.selected === 0) {
       ctx.beginPath();
-      ctx.moveTo(width, this.gameHeight - 75);
-      ctx.lineTo(width + 85, this.gameHeight - 75);
+      ctx.moveTo(width, height);
+      ctx.lineTo(width + 85, height);
       ctx.closePath();
       ctx.stroke();
     } else if (this.selected === 1){
       ctx.beginPath();
-      ctx.moveTo(width + 115, this.gameHeight - 75);
-      ctx.lineTo(width + 180, this.gameHeight - 75);
+      ctx.moveTo(width + 140, height);
+      ctx.lineTo(width + 195, height);
       ctx.closePath();
       ctx.stroke();
     } else if (this.selected === 2) {
       ctx.beginPath();
-      ctx.moveTo(width + 210, this.gameHeight - 75);
-      ctx.lineTo(width + 270, this.gameHeight - 75);
+      ctx.moveTo(width + 250, height);
+      ctx.lineTo(width + 310, height);
       ctx.closePath();
       ctx.stroke();
     }

@@ -19,7 +19,7 @@ export default class GameOptions {
   }
 
   drawBox(ctx, x, y) {
-    const width = this.selected === 2 ? 190 : 110;
+    const width = this.selected === 2 ? 225 : 110;
     const height = y - 205;
 
     ctx.rect(x, y, width, height);
