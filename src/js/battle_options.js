@@ -4,7 +4,7 @@ export default class BattleOptions {
     this.gameWidth = gameWidth;
     this.game = game;
     this.height = 125;
-    this.width = 400;
+    this.width = 500;
     this.selected = 0;
     this.optionsText = ["Attack", "Heal", "Quit"]
     this.options = [this.attack, this.heal, null];
@@ -44,7 +44,7 @@ export default class BattleOptions {
     ctx.strokeStyle = "black";
     ctx.stroke();
     const options = this.optionsText.join("    ");
-    ctx.font = "30px Arial";
+    ctx.font = '14px "Press Start 2P"';
     ctx.fillStyle = "black";
     const width = this.position.x + this.width / 6;
     ctx.fillText(options, width, this.position.y + this.height / 1.75);

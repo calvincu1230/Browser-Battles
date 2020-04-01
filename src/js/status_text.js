@@ -5,7 +5,7 @@ export default class StatusText {
     this.finalStatus = status;
     this.currentStatus = "";
     this.height = 125;
-    this.width = 400;
+    this.width = 500;
     this.count = 0;
     this.length = status.length;
     this.position = {
@@ -26,7 +26,7 @@ export default class StatusText {
     ctx.lineWidth = 5;
     ctx.strokeStyle = "black";
     ctx.stroke();
-    ctx.font = "16px Arial";
+    ctx.font = '12px "Press Start 2P"';
     ctx.fillStyle = "black";
     const width = this.position.x + 20;
     ctx.fillText(this.currentStatus, width, this.position.y + this.height / 1.75);
