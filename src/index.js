@@ -9,31 +9,48 @@ const players = [ // customize AP Health and texts later
     health: 100,
     attackPower: 20,
     name: "Chrome",
-    attackText: "Chrome threw rocks at",
-    healText: "Chrome used consume RAM,"
+    attackText: "threw rocks at", // maybe throws ads 
+    healText: "used consume RAM," // maybe image is actual RAM
   },
   {
-    health: 100,
-    attackPower: 20,
+    health: 110,
+    attackPower: 15,
     name: "Firefox",
-    attackText: "FireFox threw rocks at",
-    healText: "FireFox used a band-aid,"
+    attackText: "threw rocks at",
+    healText: "used a band-aid,"
   },
   {
-    health: 100,
-    attackPower: 0,
+    health: 150,
+    attackPower: 5,
     name: "Internet Explorer",
-    attackText: "IE used Obsolete, it's pretty useless and hit",
-    healText: ""
+    attackText: "used Obsolete, it's pretty useless and hit",
+    healText: "used something, it just wont go away and heals for"
   },
   {
     health: 100,
-    attackPower: 20,
+    attackPower: 15,
     name: "Safari",
-    attackText: "",
-    healText: ""
+    attackText: "threw rocks at", // apple money? icloud?
+    healText: "used a band-aid," // used apple support and use dollar signs instead
   }
 ]
+
+// const players = [ // customize AP Health and texts later
+//   {
+//     health: 100,
+//     attackPower: 20,
+//     name: "Chrome",
+//     attackText: "threw rocks at", // maybe throws ads 
+//     healText: "used consume RAM," // maybe image is actual RAM
+//   },
+//   {
+//     health: 100,
+//     attackPower: 20,
+//     name: "Firefox",
+//     attackText: "threw rocks at",
+//     healText: "used a band-aid,"
+//   }
+// ]
 
 document.addEventListener("DOMContentLoaded", () => {
   const GAME_HEIGHT = 480;
@@ -44,37 +61,40 @@ document.addEventListener("DOMContentLoaded", () => {
   let game;
   let player;
   let computer;
+  let selectedPlayer;
+  let selectedComputer;
+  let gameStartOptions = new GameOptions(players, GAME_WIDTH, GAME_HEIGHT);
   
   const menu = document.getElementById("menu");
   const menuListen = e => {
     if (e.keyCode === 32) {
       e.preventDefault();
       ctx.clearRect(0, 0, 840, 480);
+      // player = new Player(selectedComputer, GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
+      // computer = new Computer(selectedPlayer, GAME_HEIGHT, GAME_WIDTH);
+      // game = new Game(player, computer);
       menu.classList.add("close-menu");
       window.removeEventListener("keydown", menuListen);
-      window.addEventListener("keydown", gameInput);
-      player = new Player(players[0], GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
-      computer = new Computer(players[1], GAME_HEIGHT, GAME_WIDTH);
-      // game = new Game(player, computer);
-      game = null; // THIS IS FOR TESTING ONLY CHANGE AFTER
+      window.addEventListener("keydown", choosePlayer);
+      // game = null; // THIS IS FOR TESTING ONLY CHANGE AFTER
       gameLoop();
     }
   };
+
   window.addEventListener("keydown", menuListen);
   
   const gameOver = document.getElementById("game-over");
   const overListen = e => {
     if (e.keyCode === 32) { // will redirect to main menu after space bar
-      // statusText.draw();
       e.preventDefault();
       gameOver.classList.add("close-menu");
       window.removeEventListener("keydown", overListen);
-      window.addEventListener("keydown", gameInput);
-      player = new Player(players[0], GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
-      computer = new Computer(players[1], GAME_HEIGHT, GAME_WIDTH);
+      window.addEventListener("keydown", menuListen);
+      // player = new Player(players[0], GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
+      // computer = new Computer(players[1], GAME_HEIGHT, GAME_WIDTH);
       // game = new Game(player, computer);
       game = null;
-      gameLoop();
+      // gameLoop();
     }
   };
   
@@ -97,11 +117,11 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       youSure.classList.add("close-menu");
       window.removeEventListener("keydown", youSureListen);
-      window.addEventListener("keydown", gameInput);
+      window.addEventListener("keydown", gameInput); // ADD OPTIONS
       requestAnimationFrame(gameLoop);
     }
   }
-  
+
   const gameInput = (e) => {
     if (!game) return;
     if (game.player.inPosition && game.computer.inPosition) {
@@ -149,9 +169,46 @@ document.addEventListener("DOMContentLoaded", () => {
     } else return;
   };
   
+  const choosePlayer = (e) => { // changing logic to work with just given options
+    // if (!game) return;
+    // if (game.currentPlayer === game.player && game.activeAttack === false && game.start === true) {
+    let selected = gameStartOptions.selected;
+    switch (e.keyCode) {
+      case 37: // 37 is left arrow key
+        e.preventDefault();
+        selected -= 1;
+        if (selected < 0) { // change selected to allow player to choose move with keys
+          selected = gameStartOptions.length - 1;
+        }
+        gameStartOptions.selected = selected;
+        break;
+
+      case 39: // 39 is right arrow key
+        e.preventDefault();
+        selected++;
+        if (selected > gameStartOptions.length - 1) {
+          selected = 0;
+        }
+        gameStartOptions.selected = selected;
+        break;
+
+      case 13: // 13 is enter key
+        e.preventDefault();
+        const choice = gameStartOptions.options[selected];
+        const random = Math.round(Math.random() * (gameStartOptions.length - 1)); // chooses a random browser for computer
+        const randComp = gameStartOptions.options[random];
+        selectedPlayer = new Player(choice, GAME_HEIGHT, GAME_WIDTH);
+        selectedComputer = new Computer(randComp, GAME_HEIGHT, GAME_WIDTH);
+        game = new Game(selectedPlayer, selectedComputer);
+        window.removeEventListener("keydown", choosePlayer);
+        window.addEventListener("keydown", gameInput);
+        break;
+    }
+  }
+  
   let prevTime = 0;
   let requestId;
-  let gameStartOptions = new GameOptions(players, GAME_WIDTH, GAME_HEIGHT);
+
   function gameLoop(timestamp) {
     let dt = timestamp - prevTime;
     prevTime = timestamp;
@@ -160,38 +217,10 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.beginPath();
 
     if (!game) {
-      gameStartOptions.update();
       gameStartOptions.draw(ctx);
       requestId = requestAnimationFrame(gameLoop);
-    } else {
-      if (!game.computer.attacking && !game.player.attacking && game.gameState) game.activeAttack = false;
-      if (game.currentPlayer === game.computer && !game.activeAttack) {
-        game.activeAttack = true;
-        game.computer.playTurn(game.player);
-        game.currentPlayer = game.player;
-        // set timeout flag for player turns
-      }
-      if (game.winner()) {
-        game.winnerText.update();
-        game.winnerText.draw(ctx);
-      } else {
-        if (game.currentPlayer === game.player && game.activeAttack) {
-          if (!game.computer.statusText) game.battleOptions.draw(ctx);
-          else { // due to change turn mechanics, correct status will not be on the current player
-            game.computer.statusText.update();
-            game.computer.statusText.draw(ctx);
-          }
-        } else if (game.currentPlayer === game.computer && game.activeAttack) {
-          // if (!game.computer.statusText) game.battleOptions.draw(ctx);
-          // else { // due to change turn mechanics, correct status will not be on the current player
-            game.player.statusText.update();
-            game.player.statusText.draw(ctx);
-          // }
-        } else { // if there is no active attack, draw options for human player
-          game.battleOptions.draw(ctx);
-        }
-      }
-
+    } else { 
+      // drawings will always render/update until game is ended
       game.player.update(dt);
       game.player.draw(ctx, dt);
 
@@ -203,23 +232,55 @@ document.addEventListener("DOMContentLoaded", () => {
     
       game.compHealth.update(dt);
       game.compHealth.draw(ctx);
-    
-      // logic may need tweaking, due to initial null & timeouts
-    
-      if (game.gameOver() && !game.activeAttack) {
-        game.activeAttack = true;
-      }
+
+      if (game.player.inPosition && game.computer.inPosition) {
+        game.gameState = true;
+      } else requestId = requestAnimationFrame(gameLoop);
 
       if (game.gameState) {
-        requestId = requestAnimationFrame(gameLoop);
-      } else {
-        cancelAnimationFrame(requestId);
-        setTimeout(() => {
-          // puts new overlay on the game if over to prompt play again
-          window.removeEventListener("keydown", gameInput); // removes gameplay listeners
-          gameOver.classList.remove("close-menu"); // displays overlay
-          window.addEventListener("keydown", overListen); // adds restart game listener
-        }, 1750);
+        if (!game.computer.attacking && !game.player.attacking) game.activeAttack = false;
+        if (game.currentPlayer === game.computer && !game.activeAttack) {
+          game.activeAttack = true;
+          game.computer.playTurn(game.player);
+          game.currentPlayer = game.player;
+          // set timeout flag for player turns
+        }
+        if (game.winner()) {
+          game.winnerText.update();
+          game.winnerText.draw(ctx);
+        } else {
+          if (game.currentPlayer === game.player && game.activeAttack) {
+            if (!game.computer.statusText) game.battleOptions.draw(ctx);
+            else {
+              game.computer.statusText.update() ;
+              game.computer.statusText.draw(ctx);
+            }
+          } else if (game.currentPlayer === game.computer && game.activeAttack) {
+            // if (!game.computer.statusText) game.battleOptions.draw(ctx);
+            // else {
+              game.player.statusText.update();
+              game.player.statusText.draw(ctx);
+            // }
+          } else { // if there is no active attack, draw options for human player
+            game.battleOptions.draw(ctx);
+          }
+        }
+        
+        if (game.gameOver() && !game.activeAttack) {
+          game.activeAttack = true;
+        }
+        
+        if (game.gameState) {
+          requestId = requestAnimationFrame(gameLoop);
+        } else {
+          cancelAnimationFrame(requestId);
+          setTimeout(() => {
+            // puts new overlay on the game if over to prompt play again
+            window.removeEventListener("keydown", gameInput); // removes gameplay listeners
+            gameOver.classList.remove("close-menu"); // displays overlay
+            window.addEventListener("keydown", overListen); // adds restart game listener
+          }, 2000);
+        }
       }
     }
   }

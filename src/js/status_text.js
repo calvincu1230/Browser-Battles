@@ -14,8 +14,8 @@ export default class StatusText {
     }
     this.draw = this.draw.bind(this);
     this.update = this.update.bind(this);
-  }
-// if lengths are not the same and status !== current, reset
+  } 
+
   draw(ctx) {
     ctx.rect(this.position.x, this.position.y, this.width, this.height);
     ctx.fillStyle = "white";

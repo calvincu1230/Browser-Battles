@@ -5,7 +5,7 @@ import HealingObject from "./healing_object";
 export default class Computer {
   constructor(player, gameHeight, gameWidth) { // width only would be used for opponent position
     this.name = player.name; // only if browsers are ALL made by inputing data into this 
-    this.fileName = this.name.split(" ").join("");
+    this.fileName = player.name.split(" ").join("");
     this.img = new Image();
     this.img.src = `./src/images/${this.fileName}.png`;
     this.height = 150;
@@ -85,7 +85,7 @@ export default class Computer {
   attackAnimation(opponent) {
     const num = Math.random();
     const totalDmg = Math.floor(((num < 0.1 ? .1 : num) * this.attackPower) + 5);
-    this.statusText = new StatusText(`${this.attackText} ${opponent.name} doing ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
+    this.statusText = new StatusText(`${this.name} ${this.attackText} ${opponent.name} doing ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     let counter = 0;
     const dmg = totalDmg / 3;
@@ -107,7 +107,7 @@ export default class Computer {
     // const healing = Math.floor(Math.random() * 10) + 6 - this.attackPower / 4;
     this.healAnimation();
     const healing = Math.floor(this.maxHealth * .10);
-    this.statusText = new StatusText(`${this.healText} ${healing}!`, this.gameHeight, this.gameWidth);
+    this.statusText = new StatusText(`${this.name} ${this.healText} healing for ${healing}!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     this.health += healing;
     if (this.health >= 100) {
@@ -117,8 +117,6 @@ export default class Computer {
       clearInterval(endAttack);
       this.attacking = false;
     }, 2500);
-    // console.log(`${this.name} healed for ${healing}!`);
-    // this.statusText = `${this.name} used ${this.healText} to heal for ${healing}!`;
   }
 
   healAnimation() {

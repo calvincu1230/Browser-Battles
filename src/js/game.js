@@ -6,7 +6,7 @@ export default class Game {
   constructor(player, computer) {
     this.player = player;
     this.computer = computer;
-    this.gameState = true; // starts true to prevent early attacks while players get positioned
+    this.gameState = false; // starts true to prevent early attacks while players get positioned
     this.activeAttack = false;
     this.start = false;
     this.playHealth = new HealthBar(this.player);
@@ -16,6 +16,11 @@ export default class Game {
     this.currentPlayer = this.player;
     this.status = null;
     this.changeTurn = this.changeTurn.bind(this);
+    () => {
+      if (this.player.name === this.computer.name) {
+        this.computer.name += " v2";
+      }
+    }
   }
 
   changeTurn() {

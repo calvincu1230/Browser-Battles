@@ -8,7 +8,6 @@ export default class GameOptions {
   }
 
   drawBox(ctx, x, y) {
-    // const height = (this.gameHeight / 2) - 30;
     const width = this.selected === 2 ? 190 : 110;
     const height = y - 205;
 
@@ -31,10 +30,10 @@ export default class GameOptions {
       if (idx > 2) startX += 75; // makes up for internet explorer being a longer word
       ctx.font = "22px Arial";
       ctx.fillStyle = "white";
-      ctx.fillText(`${name}`, startX, startY)
-      ctx.fillText(`AP: ${attackPower}`, startX, startY + 27)
-      ctx.fillText(`HP: ${health}`, startX, startY + 53)
-      if (idx === this.selected) this.drawBox(ctx, startX - 15, startY - 25)
+      ctx.fillText(`${name}`, startX, startY);
+      ctx.fillText(`AP: ${attackPower}`, startX, startY + 27);
+      ctx.fillText(`HP: ${health}`, startX, startY + 53);
+      if (idx === this.selected) this.drawBox(ctx, startX - 15, startY - 25);
       startX += 150; // draws box at start pos of selected 
     });
     this.drawBox(ctx);
