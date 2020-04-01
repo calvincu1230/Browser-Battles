@@ -16,19 +16,24 @@ body {
   font-family: 'Press Start 2P', sans-serif;
 }
 
-/* canvas {
-  font-family: inherit;
-} */
-
-.instructions p {
+.instructions {
   display: inline-block;
-  max-width: 300px;
+  max-width: 400px;
+  min-width: 300px;
   line-height: 1.5em;
   font-size: 14px;
   position: absolute;
   padding-left: 50px;
   top: 30px;
   left: 1000px;
+}
+
+strong {
+  color: black;
+}
+
+.title {
+  font-size: 20px;
 }
 
 .center {
@@ -92,8 +97,23 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
 }
-/* this is my workaround for local images being webpacked` */
-/* #img-loader {
-  background-image: url("../images/Chrome.png");
-  background-image: url("../images/Firefox.png");
-} */
+
+.contact {
+  color: black;
+  font-size: 40px;
+  position: absolute;
+  top: 540px;
+  margin: auto;
+}
+
+a:visited{
+  color: black;
+}
+
+a:hover{
+  color: white;
+}
+
+.contact a {
+  margin-left: 160px;
+}
