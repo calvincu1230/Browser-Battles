@@ -16,10 +16,12 @@ export default class Game {
     this.currentPlayer = this.player;
     this.status = null;
     this.changeTurn = this.changeTurn.bind(this);
-    () => {
-      if (this.player.name === this.computer.name) {
-        this.computer.name += " v2";
-      }
+    this.checkNames();
+  }
+
+  checkNames() {
+    if (this.player.name === this.computer.name) {
+      this.computer.name += " v2";
     }
   }
 
