@@ -2,7 +2,7 @@ export default class GameOptions {
   constructor(optionsArr, gameWidth, gameHeight) {
     this.options = optionsArr;
     this.images = []
-    this.selected = 1;
+    this.selected = 0;
     this.length = optionsArr.length;
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
@@ -37,7 +37,6 @@ export default class GameOptions {
     ctx.font = '40px "Press Start 2P"';
     ctx.fillStyle = "white";
     ctx.fillText("CHOOSE YOUR BROWSER", 35, this.gameHeight / 4);
-    debugger
     this.options.forEach((option, idx) => {
       const { name, attackPower, health } = option;
 

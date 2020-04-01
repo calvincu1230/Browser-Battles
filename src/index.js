@@ -6,29 +6,29 @@ import GameOptions from "./js/game_options";
 
 const players = [ // customize AP Health and texts later
   {
-    health: 100,
-    attackPower: 20,
+    health: 95,
+    attackPower: 18,
     name: "Chrome",
     attackText: "threw rocks at", // maybe throws ads 
     healText: "used consume RAM," // maybe image is actual RAM
   },
   {
-    health: 110,
+    health: 105,
     attackPower: 15,
     name: "Firefox",
     attackText: "threw rocks at",
-    healText: "used a band-aid,"
+    healText: "used a Privacy Protection,"
   },
   {
-    health: 150,
+    health: 120,
     attackPower: 5,
     name: "Internet Explorer",
     attackText: "used Obsolete, it's pretty useless and hit",
-    healText: "used something, it just wont go away and heals for"
+    healText: "used Prevent Uninstall, it just wont go away"
   },
   {
-    health: 100,
-    attackPower: 15,
+    health: 110,
+    attackPower: 12,
     name: "Safari",
     attackText: "threw rocks at", // apple money? icloud?
     healText: "used a band-aid," // used apple support and use dollar signs instead
@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const gameOver = document.getElementById("game-over");
   const overListen = e => {
-    debugger
     if (e.keyCode === 32) { // will redirect to main menu after space bar
       e.preventDefault();
       ctx.clearRect(0, 0, 840, 480);

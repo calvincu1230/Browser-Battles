@@ -76,7 +76,7 @@ export default class Player {
     }, 20);
   }
   // attack(opponent) { // opponent should be instance of opponent class
-    // const dmg = Math.floor(((Math.random() + .25) * this.attackPower) / 3); // add this to comp if it works
+    // const dmg = Math.round(((Math.random() + .25) * this.attackPower) / 3); // add this to comp if it works
     // opponent.health -= dmg;
     // this.attackAnimation(opponent);
     // if (opponent.health <= 0) {
@@ -89,7 +89,7 @@ export default class Player {
   attackAnimation(opponent) {
     this.attacking = true;
     const num = Math.random();
-    const totalDmg = Math.floor(((num < 0.1 ? .10 : num) * this.attackPower) + 25);
+    const totalDmg = Math.round(((num < 0.25 ? .25 : num) * this.attackPower));
     this.statusText = new StatusText(`${this.name} ${this.attackText} ${opponent.name} doing ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
     let counter = 0;
     const dmg = totalDmg / 3;
@@ -107,14 +107,15 @@ export default class Player {
   }
 
   heal() { // just adds health back to 
-    // const healing = Math.floor(Math.random() * 10) + 6 - this.attackPower / 4;
+    // const healing = Math.round(Math.random() * 10) + 6 - this.attackPower / 4;
     this.healAnimation();
-    const healing = Math.floor(this.maxHealth * .10);
+    // const healing = Math.round(this.maxHealth * .10 + (Math.random() * this.attackPower / 5));
+    const healing = Math.round(this.maxHealth * .10);
     this.statusText = new StatusText(`${this.name} ${this.healText} healing for ${healing}!`, this.gameHeight, this.gameWidth);
     this.attacking = true;
     this.health += healing;
-    if (this.health >= 100) {
-      this.health = 100;
+    if (this.health >= this.maxHealth) {
+      this.health = this.maxHealth;
     }
     const endAttack = setInterval(() => {
       clearInterval(endAttack);
