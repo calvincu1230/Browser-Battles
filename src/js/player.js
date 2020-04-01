@@ -86,7 +86,7 @@ export default class Player {
   attackAnimation(opponent) {
     this.attacking = true;
     const num = Math.random();
-    const totalDmg = Math.floor(((num < 0.1 ? .10 : num) * this.attackPower) + 5);
+    const totalDmg = Math.floor(((num < 0.1 ? .10 : num) * this.attackPower) + 25);
     this.statusText = new StatusText(`${this.name} ${this.attackText} ${opponent.name} doing ${totalDmg} damage!`, this.gameHeight, this.gameWidth);
     let counter = 0;
     const dmg = totalDmg / 3;

@@ -23,13 +23,15 @@ export default class GameOptions {
 
     ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
     ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
+    ctx.font = "60px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("CHOOSE YOUR BROWSER", 35, this.gameHeight / 4);
 
     this.options.forEach((option, idx) => {
       const { name, attackPower, health } = option;
 
       if (idx > 2) startX += 75; // makes up for internet explorer being a longer word
       ctx.font = "22px Arial";
-      ctx.fillStyle = "white";
       ctx.fillText(`${name}`, startX, startY);
       ctx.fillText(`AP: ${attackPower}`, startX, startY + 27);
       ctx.fillText(`HP: ${health}`, startX, startY + 53);

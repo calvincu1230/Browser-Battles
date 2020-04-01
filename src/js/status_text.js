@@ -14,7 +14,10 @@ export default class StatusText {
     }
     this.draw = this.draw.bind(this);
     this.update = this.update.bind(this);
+    // this.currentStatus2
+    // this.call the method that will split it up
   } 
+  // add a method that will split text to two lines if over 
 
   draw(ctx) {
     ctx.rect(this.position.x, this.position.y, this.width, this.height);

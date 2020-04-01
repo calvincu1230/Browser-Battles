@@ -33,24 +33,7 @@ const players = [ // customize AP Health and texts later
     attackText: "threw rocks at", // apple money? icloud?
     healText: "used a band-aid," // used apple support and use dollar signs instead
   }
-]
-
-// const players = [ // customize AP Health and texts later
-//   {
-//     health: 100,
-//     attackPower: 20,
-//     name: "Chrome",
-//     attackText: "threw rocks at", // maybe throws ads 
-//     healText: "used consume RAM," // maybe image is actual RAM
-//   },
-//   {
-//     health: 100,
-//     attackPower: 20,
-//     name: "Firefox",
-//     attackText: "threw rocks at",
-//     healText: "used a band-aid,"
-//   }
-// ]
+];
 
 document.addEventListener("DOMContentLoaded", () => {
   const GAME_HEIGHT = 480;
@@ -85,9 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const gameOver = document.getElementById("game-over");
   const overListen = e => {
+    debugger
     if (e.keyCode === 32) { // will redirect to main menu after space bar
       e.preventDefault();
+      ctx.clearRect(0, 0, 840, 480);
       gameOver.classList.add("close-menu");
+      menu.classList.remove("close-menu");
       window.removeEventListener("keydown", overListen);
       window.addEventListener("keydown", menuListen);
       // player = new Player(players[0], GAME_HEIGHT, GAME_WIDTH); // temporary auto choice until the player decides their browser
