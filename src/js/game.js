@@ -58,8 +58,3 @@ export default class Game {
   }
 
 }
-
-// const canvas = document.getElementById("game-board"); // changed to one after talking to oliver
-// const ctx = canvas.getContext("2d");
-// const GAME_HEIGHT = 480;
-// const GAME_WIDTH = 840;
